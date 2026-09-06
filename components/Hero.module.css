@@ -1,0 +1,187 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.inner {
+  --portrait-w: min(46%, 75svh);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--portrait-w);
+  min-height: 100svh;
+}
+
+/* Left column: tile / name + tagline / meta row. Above the portrait so the
+   wider second name line can run over it (part of the billchien look). */
+.text {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  row-gap: 2rem;
+  min-width: 0;
+  padding: calc(var(--nav-height) + var(--frame-inset)) var(--gutter)
+    calc(var(--gutter) + var(--frame-inset) + var(--progress-height));
+}
+
+.tile {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 12px;
+  background: var(--ink);
+  color: var(--bg);
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+}
+
+.nameBlock {
+  align-self: end;
+  display: grid;
+  grid-template-columns: max-content minmax(11rem, 17rem);
+  grid-template-areas:
+    'line1 tagline'
+    'line2 line2';
+  column-gap: clamp(1rem, 2.5vw, 2.5rem);
+  will-change: transform;
+}
+
+/* The heading's two lines participate in the grid directly. */
+.name {
+  display: contents;
+}
+
+/* Each line is a mask for the character slide-up; width: max-content keeps
+   the mask from clipping a line that is wider than the column. */
+.line {
+  display: block;
+  width: max-content;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-bottom: 0.04em;
+}
+
+.line1 {
+  grid-area: line1;
+}
+
+.line2 {
+  grid-area: line2;
+}
+
+.tagline {
+  grid-area: tagline;
+  align-self: start;
+  max-width: 17rem;
+  padding-top: 0.35em;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  color: var(--muted);
+}
+
+.portrait {
+  position: relative;
+  height: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.portraitImg {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+/* Bottom-right, clear of the floating mail button. */
+.status {
+  position: absolute;
+  right: calc(var(--frame-inset) + 1.5rem + var(--mail-size) + 1rem);
+  bottom: calc(var(--gutter) + var(--frame-inset) + var(--progress-height));
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(240, 240, 240, 0.85);
+  color: var(--ink);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+}
+
+/* Keep the content hidden until the intro timeline starts (JS present). */
+:global(html[data-intro]) .text,
+:global(html[data-intro]) .portrait,
+:global(html[data-intro]) .status {
+  visibility: hidden;
+}
+
+/* Minimal stack so the hero is usable on small screens; the full responsive
+   pass is build step 7. */
+@media (max-width: 768px) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+
+  .text {
+    padding-bottom: 2rem;
+  }
+
+  .nameBlock {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'line1'
+      'line2'
+      'tagline';
+  }
+
+  .tagline {
+    padding-top: 1rem;
+  }
+
+  .meta {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .portrait {
+    min-height: 0;
+    aspect-ratio: 3 / 4;
+  }
+
+  .status {
+    position: static;
+    justify-self: start;
+    margin: 0 var(--gutter) var(--gutter);
+  }
+}

@@ -1,0 +1,21 @@
+.root {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  display: flex;
+  align-items: flex-end;
+  padding: calc(var(--gutter) + var(--frame-inset));
+  background: #0e0e0e;
+  color: #f0f0f0;
+  will-change: transform;
+}
+
+/* Repeat visit this session: never paint the overlay, even before hydration. */
+:global(html[data-intro='seen']) .root {
+  display: none;
+}
+
+.counter {
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}

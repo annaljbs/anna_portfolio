@@ -1,0 +1,35 @@
+.marquee {
+  overflow: hidden;
+  padding: 3vw 0;
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15em;
+  padding-right: 0.15em;
+  font-size: var(--fs-marquee);
+}
+
+.badge {
+  display: grid;
+  place-items: center;
+  width: 0.34em;
+  height: 0.34em;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--bg);
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: 0.1em;
+  letter-spacing: -0.03em;
+}

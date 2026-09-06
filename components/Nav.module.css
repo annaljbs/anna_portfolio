@@ -1,0 +1,101 @@
+.header {
+  display: contents;
+}
+
+/* Bar: white + difference blending so it reads on light and dark sections
+   (and over the dark panel). Hidden until the intro reveals it. */
+.bar {
+  position: fixed;
+  top: var(--frame-inset);
+  left: var(--frame-inset);
+  right: var(--frame-inset);
+  z-index: var(--z-nav);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-height);
+  padding: 0 var(--gutter);
+  color: #fff;
+  mix-blend-mode: difference;
+  font-family: var(--ff-body);
+  font-size: var(--fs-body);
+}
+
+:global(html[data-intro]) .bar {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.wordmark,
+.toggle {
+  padding: 0.25rem 0;
+  line-height: 1.2;
+}
+
+.toggle:focus-visible {
+  outline-color: #fff;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-nav-panel) - 1);
+  background: rgba(14, 14, 14, 0.2);
+  cursor: pointer;
+}
+
+.panel {
+  position: fixed;
+  top: var(--frame-inset);
+  right: var(--frame-inset);
+  bottom: var(--frame-inset);
+  z-index: var(--z-nav-panel);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: min(100%, 34rem);
+  padding: calc(var(--nav-height) + var(--gutter)) var(--gutter) calc(var(--gutter) + var(--progress-height));
+  background: var(--bg);
+  color: var(--text);
+  visibility: hidden;
+  will-change: transform;
+}
+
+.list {
+  display: grid;
+  gap: 0.25rem;
+}
+
+/* Each row masks its link for the yPercent reveal. */
+.item {
+  overflow: hidden;
+}
+
+.link {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.2em 0;
+  color: var(--ink);
+}
+
+.num {
+  color: var(--muted);
+}
+
+.label {
+  --underline-h: 0.05em;
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 4.5vw, 4.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+.panelFooter {
+  color: var(--muted);
+}
+
+.panelFooter a {
+  text-transform: none;
+}

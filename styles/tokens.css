@@ -36,9 +36,11 @@
   --gutter: clamp(1rem, 3vw, 3rem);
   --progress-height: 4px;
   --mail-size: 56px;
+  --nav-height: 4rem;
 
   /* Stacking order for fixed chrome. */
   --z-progress: 40;
+  --z-nav-panel: 45;
   --z-frame: 50;
   --z-mail: 60;
   --z-nav: 70;

@@ -1,19 +1,13 @@
 # Anna — Portfolio
 
 Award-style single-page portfolio built from [portfolio-build-brief.md](./portfolio-build-brief.md).
-Build progress follows brief §5; step 1 (scaffold, tokens, fonts, Lenis + GSAP, page frame, scroll progress, mail button, reduced motion) is done.
+Build progress follows brief §5. Done: step 1 (scaffold, tokens, fonts, Lenis + GSAP, page frame, scroll progress, mail button, reduced motion) and step 2 (preloader, nav, hero with live clock, name marquee).
 
 ## Run
 
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-```
-
-Docker (the institution setup — `next dev` on port 3000 with the project bind-mounted):
-
-```bash
-docker compose up --build
 ```
 
 Other scripts: `npm run build`, `npm run start`, `npm run lint`, `npm run typecheck`.
@@ -39,19 +33,26 @@ Self-hosted woff2 in `styles/fonts/` (licences alongside), loaded via `next/font
 
 Type roles are the `.t-hero`, `.t-display`, `.t-marquee`, `.t-body`, `.t-body-lg`, `.t-mono` classes in `styles/type.css`.
 
+## Intro flow
+
+1. An inline script in `app/layout.tsx` stamps `html[data-intro="first|seen"]` before hydration (session key in `lib/intro.ts`).
+2. `Preloader` counts 0–100 %, wipes up, and calls `reveal()` from `IntroProvider` at the wipe's midpoint (immediately on repeat visits).
+3. `Hero` and `Nav` keep their content hidden via `html[data-intro]` CSS and play their entrance when the phase becomes `reveal`.
+
 ## Reduced motion
 
 - CSS transitions/animations collapse to instant via `styles/globals.css`.
-- GSAP animations must be wrapped in `gsap.matchMedia().add(MOTION_OK, …)` (see `lib/gsap.ts`).
+- GSAP animations are wrapped in `gsap.matchMedia().add(MOTION_OK, …)` (see `lib/gsap.ts`); the preloader and nav panel fall back to fades.
 - Lenis switches to native scrolling (`LENIS_OPTIONS_REDUCED`).
 
 ## Structure
 
 ```
 app/            layout (chrome + providers), home page, later work/[slug]
-components/     SmoothScroll, PageFrame, ScrollProgress, MailButton, …
-content/        site.ts (copy, links) — projects.ts arrives in step 3
-lib/            gsap.ts, lenis.ts, fonts.ts
+components/     Preloader, Nav, Hero, Clock, Marquee, SmoothScroll, PageFrame, ScrollProgress, MailButton, IntroProvider
+content/        site.ts (copy, links, nav) — projects.ts arrives in step 3
+lib/            gsap.ts, lenis.ts, fonts.ts, intro.ts
+public/         placeholders/ (swap for images/ later)
 styles/         tokens.css, globals.css, type.css, fonts/
 ```
 
