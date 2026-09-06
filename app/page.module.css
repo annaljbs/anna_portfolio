@@ -1,7 +1,7 @@
-/* Temporary section stubs. TODO: replace in steps 3–5. */
+/* Temporary section stubs. TODO: replace in steps 4–5. Transparent so the
+   body-background theme tween shows through. */
 .stub {
   min-height: 70svh;
   padding: calc(var(--gutter) * 2) var(--gutter);
-  background: var(--bg);
   color: var(--muted);
 }

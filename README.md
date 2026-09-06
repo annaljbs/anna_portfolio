@@ -1,7 +1,7 @@
 # Anna — Portfolio
 
 Award-style single-page portfolio built from [portfolio-build-brief.md](./portfolio-build-brief.md).
-Build progress follows brief §5. Done: step 1 (scaffold, tokens, fonts, Lenis + GSAP, page frame, scroll progress, mail button, reduced motion) and step 2 (preloader, nav, hero with live clock, name marquee).
+Build progress follows brief §5. Done: step 1 (scaffold, tokens, fonts, Lenis + GSAP, page frame, scroll progress, mail button, reduced motion), step 2 (preloader, nav, hero with live clock) and step 3 (About, Featured Work with live/WIP states and autoplaying previews, theme tween between sections).
 
 ## Run
 
@@ -39,6 +39,14 @@ Type roles are the `.t-hero`, `.t-display`, `.t-marquee`, `.t-body`, `.t-body-lg
 2. `Preloader` counts 0–100 %, wipes up, and calls `reveal()` from `IntroProvider` at the wipe's midpoint (immediately on repeat visits).
 3. `Hero` and `Nav` keep their content hidden via `html[data-intro]` CSS and play their entrance when the phase becomes `reveal`.
 
+## Section themes
+
+Every top-level section in `app/page.tsx` declares `data-section-theme="light|dark"` and keeps a transparent background. `components/ThemeController.tsx` tweens the body background (`lib/theme.ts` mirrors `--bg`) when a section with a different theme crosses the viewport middle and flips `html[data-theme]`, so all token-driven colours follow (they fade in step via a scoped transition in `styles/globals.css`). Only `html` and self-contained overlays (the nav panel) carry `data-theme` itself.
+
+## Projects
+
+`content/projects.ts` holds the Featured Work rows (`status: 'live' | 'wip'`). Live rows take a poster + optional `video` (mp4, optional webm) that autoplays muted while in view; WIP rows render a grayscale cover, an "In progress" pill and a non-clickable link. Media lives in `public/projects/`.
+
 ## Reduced motion
 
 - CSS transitions/animations collapse to instant via `styles/globals.css`.
@@ -49,10 +57,12 @@ Type roles are the `.t-hero`, `.t-display`, `.t-marquee`, `.t-body`, `.t-body-lg
 
 ```
 app/            layout (chrome + providers), home page, later work/[slug]
-components/     Preloader, Nav, Hero, Clock, Marquee, SmoothScroll, PageFrame, ScrollProgress, MailButton, IntroProvider
-content/        site.ts (copy, links, nav) — projects.ts arrives in step 3
-lib/            gsap.ts, lenis.ts, fonts.ts, intro.ts
-public/         placeholders/ (swap for images/ later)
+components/     Preloader, Nav, Hero, Clock, About, Work, WorkCard, ProjectVideo,
+                ThemeController, Marquee (generic loop), SmoothScroll, PageFrame, ScrollProgress,
+                MailButton, IntroProvider
+content/        site.ts (copy, links, nav, section labels), projects.ts
+lib/            gsap.ts, lenis.ts, fonts.ts, intro.ts, theme.ts
+public/         projects/ (clips + posters), placeholders/ (swap for images/ later)
 styles/         tokens.css, globals.css, type.css, fonts/
 ```
 

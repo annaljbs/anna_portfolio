@@ -25,6 +25,23 @@ export const site = {
     { label: 'Skills', href: '#skills' },
     { label: 'Q&A', href: '#qa' },
   ],
+  /** (01) About — §3.3 */
+  about: {
+    number: '01',
+    title: 'About',
+    lead: '[PLACEHOLDER] I am a web developer and designer who likes building interfaces that feel fast, read clearly and have a little personality.', // TODO: replace
+    body: '[PLACEHOLDER] Second paragraph: background, what you are studying or working on, and what you are looking for next.', // TODO: replace
+    roles: ['3D Designer', 'Video Editor', 'Creative'], // TODO: replace
+  },
+  /** (02) Featured Work — §3.4 */
+  work: {
+    number: '02',
+    title: 'Featured Work',
+    hint: '[Scroll to explore more]',
+    viewLabel: 'View Project',
+    wipLabel: 'Case study coming soon',
+    wipPill: 'In progress',
+  },
 } as const;
 
 export type Site = typeof site;
