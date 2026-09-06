@@ -1,7 +1,20 @@
-/* Temporary section stub. TODO: replace in step 5. Transparent so the
-   body-background theme tween shows through. */
-.stub {
-  min-height: 70svh;
-  padding: calc(var(--gutter) * 2) var(--gutter);
-  color: var(--muted);
+/* Curtain reveal (§3.8). The tail bounds the footer's sticky range so it
+   never shows through the transparent sections above. The curtain paints the
+   theme background — tweened by ThemeController together with the body
+   (data-theme-surface) so the two never drift — and sits above the sticky
+   footer. */
+.tail {
+  position: relative;
+}
+
+.curtain {
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+  transition: none;
+}
+
+.anchor {
+  display: block;
+  height: 0;
 }

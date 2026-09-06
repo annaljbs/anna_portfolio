@@ -53,7 +53,7 @@ export default function Manifesto() {
   }, []);
 
   return (
-    <section ref={root} id="manifesto" className={styles.manifesto} data-section-theme="dark">
+    <section ref={root} id="manifesto" className={styles.manifesto} data-section-theme="light">
       <blockquote className={styles.quote}>
         <p className={styles.text} data-quote>
           “{site.manifesto.quote}”

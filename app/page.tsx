@@ -4,16 +4,21 @@ import Work from '@/components/Work';
 import Manifesto from '@/components/Manifesto';
 import Skills from '@/components/Skills';
 import QA from '@/components/QA';
+import Footer from '@/components/Footer';
 import ThemeController from '@/components/ThemeController';
 import styles from './page.module.css';
 
 /**
- * Home: all sections stacked. Each top-level section declares its theme
- * with data-section-theme (the hero, built earlier, uses data-theme);
+ * Home: all sections stacked. Each top-level block declares its theme with
+ * data-section-theme (the hero, built earlier, uses data-theme);
  * ThemeController tweens the body background at every theme boundary and
  * flips html[data-theme] so text colours follow.
- * Hero, About, Work, Manifesto, Skills and Q&A are real (steps 2–4); the
- * Contact stub gives its nav anchor a target until step 5 replaces it.
+ *
+ * Curtain reveal (§3.8): Q&A and the footer share one tail block. The Q&A
+ * curtain is opaque and stacked above; the footer is position: sticky at the
+ * bottom of the tail, so it stays pinned while Q&A scrolls up and off it.
+ * The zero-height #contact anchor marks the footer's natural position for
+ * the nav (a sticky box's own rect moves).
  */
 export default function Home() {
   return (
@@ -24,12 +29,14 @@ export default function Home() {
       <Work />
       <Manifesto />
       <Skills />
-      <QA />
 
-      {/* TODO: replace — section stub, see step 5 of the brief. */}
-      <section id="contact" className={styles.stub} data-section-theme="dark">
-        <p className="t-mono">(03) Contact — step 5</p>
-      </section>
+      <div className={styles.tail} data-section-theme="dark">
+        <div className={styles.curtain} data-curtain data-theme-surface>
+          <QA />
+        </div>
+        <div id="contact" className={styles.anchor} aria-hidden="true" />
+        <Footer />
+      </div>
     </>
   );
 }

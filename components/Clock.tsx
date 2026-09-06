@@ -30,22 +30,32 @@ function subscribe(onTick: () => void) {
 const getSeconds = () => Math.floor(Date.now() / 1000);
 const getServerSeconds = () => null;
 
+type Props = {
+  cellClassName?: string;
+  /** Which cells to render; the hero shows both, the footer echoes the time. */
+  show?: 'both' | 'date' | 'time';
+};
+
 /**
  * Date ("Sep 6, 2026") and live time ("13:57:23") in the owner's timezone
  * (§3.2). Client-only values, so server and client markup match.
  */
-export default function Clock({ cellClassName }: { cellClassName?: string }) {
+export default function Clock({ cellClassName, show = 'both' }: Props) {
   const seconds = useSyncExternalStore(subscribe, getSeconds, getServerSeconds);
   const now = seconds === null ? null : new Date(seconds * 1000);
 
   return (
     <>
-      <span className={cellClassName} data-clock="date">
-        {now ? dateFormat.format(now) : ' '}
-      </span>
-      <span className={cellClassName} data-clock="time">
-        {now ? timeFormat.format(now) : ' '}
-      </span>
+      {show !== 'time' && (
+        <span className={cellClassName} data-clock="date">
+          {now ? dateFormat.format(now) : ' '}
+        </span>
+      )}
+      {show !== 'date' && (
+        <span className={cellClassName} data-clock="time">
+          {now ? timeFormat.format(now) : ' '}
+        </span>
+      )}
     </>
   );
 }

@@ -86,6 +86,22 @@ export const site = {
       },
     ],
   },
+  /** (03) Contact / footer — §3.8 */
+  contact: {
+    number: '06',
+    lead: "For enquiries, collaboration requests or job opportunities, don't hesitate to reach out!",
+    title: 'Get in touch',
+    copied: 'Email copied',
+    phone: '', // TODO: replace, or '' to hide the phone line
+    timeLabel: 'Local time',
+    credit: 'Designed & Developed by',
+    socials: [
+      { label: 'WhatsApp', href: 'https://wa.me/' }, // TODO: replace with https://wa.me/<number>
+      { label: 'LinkedIn', href: 'https://www.linkedin.com/in/anna-ljubas' }, // TODO: replace
+      { label: 'Instagram', href: 'https://www.instagram.com/annaljbs' }, // TODO: replace
+      { label: 'GitHub', href: 'https://github.com/annaljbs' }, // TODO: replace
+    ],
+  },
 } as const;
 
 

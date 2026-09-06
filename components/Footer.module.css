@@ -1,0 +1,139 @@
+/* Sticky under the Q&A curtain (app/page.tsx): stays pinned to the viewport
+   bottom while its parent block is in view, so Q&A lifts off it. Transparent:
+   the body background carries the dark theme (§2.1). */
+.footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 88svh;
+  padding: calc(var(--nav-height) + var(--gutter)) var(--gutter)
+    calc(var(--gutter) + var(--frame-inset) + var(--progress-height));
+  color: var(--text);
+}
+
+.top {
+  display: grid;
+  gap: 2rem;
+}
+
+.number {
+  color: var(--muted);
+}
+
+.lead {
+  max-width: 34rem;
+  color: var(--ink);
+}
+
+/* Bigger than the section titles: this is the page's closing line. */
+.footer .title {
+  font-size: clamp(3rem, 11vw, 12rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  margin: 0.5rem 0 1rem;
+}
+
+.links {
+  display: grid;
+  gap: 1.25rem;
+  justify-items: start;
+}
+
+.email {
+  --underline-h: 0.06em;
+  position: relative;
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3.5vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+/* "Email copied" appears under the link without shifting layout. */
+.copied {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: 0.75rem;
+  color: var(--muted);
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.email[data-copied] .copied {
+  opacity: 1;
+  transform: none;
+}
+
+.phone {
+  font-size: var(--fs-body-lg);
+  color: var(--ink);
+}
+
+.time {
+  color: var(--muted);
+}
+
+.bottom {
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+
+/* Drawn in (scaleX 0 → 1) with the entrance. */
+.rule {
+  display: block;
+  height: 1px;
+  background: var(--line);
+  transform-origin: left center;
+}
+
+/* Three columns; the right one clears the floating mail button. */
+.bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem 2rem;
+  padding: 1.5rem calc(var(--mail-size) + 2.5rem) 0 0;
+  color: var(--muted);
+}
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-self: center;
+}
+
+.socials a {
+  color: var(--ink);
+}
+
+.credit {
+  justify-self: end;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    min-height: 0;
+  }
+
+  .bar {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding-right: 0;
+    padding-bottom: calc(var(--mail-size) + 1.5rem);
+  }
+
+  .socials,
+  .credit {
+    justify-self: start;
+    text-align: left;
+  }
+}
