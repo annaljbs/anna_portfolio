@@ -1,0 +1,9 @@
+.frame {
+  position: fixed;
+  inset: var(--frame-inset);
+  z-index: var(--z-frame);
+  border-radius: var(--frame-radius);
+  /* Spread must exceed the radius so the window corners are fully covered. */
+  box-shadow: 0 0 0 100px var(--frame-bg);
+  pointer-events: none;
+}

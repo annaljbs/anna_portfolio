@@ -1,0 +1,17 @@
+/* White + difference blending: reads as ink on light sections and white on
+   dark ones. Sits below the page frame in z-order so the frame's rounded
+   corners mask the bar's ends. */
+.bar {
+  position: fixed;
+  left: var(--frame-inset);
+  right: var(--frame-inset);
+  bottom: var(--frame-inset);
+  z-index: var(--z-progress);
+  height: var(--progress-height);
+  background: #fff;
+  mix-blend-mode: difference;
+  transform: scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
+  will-change: transform;
+}
