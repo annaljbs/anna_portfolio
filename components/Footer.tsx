@@ -108,6 +108,7 @@ export default function Footer() {
   }
 
   const { contact } = site;
+  const phone: string = contact.phone; // widen the literal so '' can hide the line
   const year = new Date().getFullYear();
 
   return (
@@ -138,9 +139,9 @@ export default function Footer() {
           <span className="sr-only" role="status" aria-live="polite">
             {copied ? contact.copied : ''}
           </span>
-          {contact.phone && (
-            <a href={`tel:${contact.phone.replace(/\s+/g, '')}`} className={`${styles.phone} u-underline`}>
-              {contact.phone}
+          {phone && (
+            <a href={`tel:${phone.replace(/\s+/g, '')}`} className={`${styles.phone} u-underline`}>
+              {phone}
             </a>
           )}
           <p className={`${styles.time} t-mono`}>

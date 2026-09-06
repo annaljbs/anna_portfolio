@@ -10,6 +10,7 @@ import { site } from '@/content/site';
 import SmoothScroll from '@/components/SmoothScroll';
 import { INTRO_STORAGE_KEY } from '@/lib/intro';
 import { IntroProvider } from '@/components/IntroProvider';
+import { PageTransition } from '@/components/PageTransition';
 import Preloader from '@/components/Preloader';
 import Nav from '@/components/Nav';
 import PageFrame from '@/components/PageFrame';
@@ -28,7 +29,8 @@ const introScript = `(function(){var v='first';try{if(sessionStorage.getItem('${
 
 /**
  * Root layout: fonts on <html>, default light theme, Lenis + GSAP wiring,
- * intro coordination, then the always-present chrome.
+ * intro coordination, the page transition overlay, then the always-present
+ * chrome shared by the home page and the /work/[slug] detail pages.
  */
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -37,12 +39,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: introScript }} />
         <SmoothScroll>
           <IntroProvider>
-            <Preloader />
-            <Nav />
-            <main id="main">{children}</main>
-            <PageFrame />
-            <ScrollProgress />
-            <MailButton />
+            <PageTransition>
+              <Preloader />
+              <Nav />
+              <main id="main">{children}</main>
+              <PageFrame />
+              <ScrollProgress />
+              <MailButton />
+            </PageTransition>
           </IntroProvider>
         </SmoothScroll>
       </body>

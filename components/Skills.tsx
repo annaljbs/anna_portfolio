@@ -8,14 +8,12 @@ import styles from './Skills.module.css';
 
 type Group = (typeof site.skills.groups)[number];
 
-const HOVER_QUERY = '(hover: hover) and (pointer: fine)';
-
 /**
  * (04) Skills (§3.6, russellnumo "Services"): one row per skill group with a
- * ( ) marker and an alternating "click me" hint. Click (or hover with a
- * fine pointer) opens a row — the marker becomes (●), the hint fades and the
- * sub-skills expand with a height-auto tween and staggered fade. One row
- * open at a time; dividers draw in on scroll.
+ * ( ) marker and an alternating "click me" hint. Clicking opens a row — the
+ * marker becomes (●), the hint fades and the sub-skills expand with a
+ * height-auto tween and staggered fade. One row open at a time; dividers
+ * draw in on scroll.
  */
 export default function Skills() {
   const root = useRef<HTMLElement>(null);
@@ -41,7 +39,6 @@ export default function Skills() {
             group={group}
             open={open === i}
             onToggle={() => setOpen(open === i ? null : i)}
-            onOpen={() => setOpen(i)}
           />
         ))}
       </ul>
@@ -55,19 +52,14 @@ type RowProps = {
   group: Group;
   open: boolean;
   onToggle: () => void;
-  onOpen: () => void;
 };
 
-function SkillRow({ index, group, open, onToggle, onOpen }: RowProps) {
+function SkillRow({ index, group, open, onToggle }: RowProps) {
   const panel = useRef<HTMLDivElement>(null);
   useExpandable(panel, open);
   const id = `skills-panel-${index}`;
   // Even rows: "click me →" before the marker; odd rows: marker, then "← click me".
   const hintBefore = index % 2 === 0;
-
-  function hover() {
-    if (window.matchMedia(HOVER_QUERY).matches) onOpen();
-  }
 
   return (
     <li className={styles.row} data-open={open || undefined}>
@@ -78,7 +70,6 @@ function SkillRow({ index, group, open, onToggle, onOpen }: RowProps) {
         aria-expanded={open}
         aria-controls={id}
         onClick={onToggle}
-        onMouseEnter={hover}
       >
         <span className={styles.name}>{group.name}</span>
         <span className={styles.control}>

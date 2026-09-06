@@ -16,7 +16,7 @@ export const site = {
   /** Hero status pill (russellnumo). Set to '' to hide it. */
   status: 'Open to work', // TODO: replace
   /** Hero portrait, 3:4. */
-  portrait: '/placeholders/portrait.svg', // TODO: replace with /images/portrait.webp
+  portrait: '/images/portrait.webp',
   /** Menu links in the order the brief lists them; hrefs are section ids. */
   nav: [
     { label: 'About', href: '#about' },
@@ -101,6 +101,15 @@ export const site = {
       { label: 'Instagram', href: 'https://www.instagram.com/annaljbs' }, // TODO: replace
       { label: 'GitHub', href: 'https://github.com/annaljbs' }, // TODO: replace
     ],
+  },
+  /** /work/[slug] detail pages — §3.9 */
+  project: {
+    back: 'Back to work',
+    next: 'Next project',
+    challenge: 'Challenge',
+    solution: 'Solution',
+    meta: { category: 'Category', year: 'Year', role: 'Role', stack: 'Stack' },
+    wipBanner: 'This case study is still being written. The layout below is a placeholder.',
   },
 } as const;
 

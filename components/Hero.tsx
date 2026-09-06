@@ -183,7 +183,6 @@ export default function Hero() {
 
         <div className={styles.portrait} data-hero-portrait data-hero-hide>
           <div className={styles.portraitImg} data-hero-portrait-img>
-            {/* TODO: replace — placeholder portrait; swap site.portrait for /images/portrait.webp */}
             <Image
               src={site.portrait}
               alt=""

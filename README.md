@@ -1,7 +1,7 @@
 # Anna — Portfolio
 
 Award-style single-page portfolio built from [portfolio-build-brief.md](./portfolio-build-brief.md).
-Build progress follows brief §5. Done: step 1 (scaffold, tokens, fonts, Lenis + GSAP, page frame, scroll progress, mail button, reduced motion), step 2 (preloader, nav, hero with live clock), step 3 (About, Featured Work with live/WIP states and autoplaying previews, theme tween between sections), step 4 (Manifesto read-along quote, Skills rows, Q&A accordion) and step 5 (Contact footer with the sticky curtain reveal).
+Build progress follows brief §5. Done: step 1 (scaffold, tokens, fonts, Lenis + GSAP, page frame, scroll progress, mail button, reduced motion), step 2 (preloader, nav, hero with live clock), step 3 (About, Featured Work with live/WIP states and autoplaying previews, theme tween between sections), step 4 (Manifesto read-along quote, Skills rows, Q&A accordion) step 5 (Contact footer with the sticky curtain reveal) and step 6 (/work/[slug] detail pages and the column page transition).
 
 ## Run
 
@@ -51,6 +51,10 @@ Every top-level block in `app/page.tsx` declares `data-section-theme="light|dark
 
 Q&A and the footer live in one tail block in `app/page.tsx`. The Q&A curtain is opaque (`background: var(--bg)`) and stacked above; `components/Footer.tsx` is `position: sticky; bottom: 0`, so it stays pinned to the viewport bottom while Q&A scrolls off it. The footer's entrance is triggered from the curtain's bottom edge, and the nav's `#contact` target is a zero-height anchor at the footer's natural position.
 
+## Detail pages and transition
+
+`app/work/[slug]/page.tsx` renders every slug in `content/projects.ts` through `components/ProjectPage.tsx` (dark theme; WIP slugs get an "In progress" banner and placeholder media). `components/PageTransition.tsx` wraps the app in the layout: it intercepts internal link clicks, grows 12 columns from the top (0.04 s left → right stagger), swaps the route while covered, shrinks them towards the bottom, and releases the intro as the last column leaves. Browser back/forward and `data-transition="back"` links reverse the stagger; `data-transition="none"` opts a link out.
+
 ## Reduced motion
 
 - CSS transitions/animations collapse to instant via `styles/globals.css`.
@@ -60,9 +64,9 @@ Q&A and the footer live in one tail block in `app/page.tsx`. The Q&A curtain is 
 ## Structure
 
 ```
-app/            layout (chrome + providers), home page, later work/[slug]
+app/            layout (chrome + providers + transition), home page, work/[slug]
 components/     Preloader, Nav, Hero, Clock, About, Work, WorkCard, ProjectVideo, Manifesto,
-                Skills, QA, Footer, ThemeController, Marquee (generic loop), SmoothScroll, PageFrame,
+                Skills, QA, Footer, ProjectPage, PageTransition, ThemeController, Marquee (generic loop), SmoothScroll, PageFrame,
                 ScrollProgress, MailButton, IntroProvider, useSectionReveal, useExpandable (hooks)
 content/        site.ts (copy, links, nav, section labels, skills, Q&A, contact), projects.ts
 lib/            gsap.ts, lenis.ts, fonts.ts, intro.ts, theme.ts

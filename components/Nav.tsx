@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
+import { usePathname } from 'next/navigation';
 import { useLenis } from 'lenis/react';
 import { gsap, DUR, EASE, prefersReducedMotion } from '@/lib/gsap';
 import { site } from '@/content/site';
 import { useIntro } from './IntroProvider';
+import { useTransition } from './PageTransition';
 import styles from './Nav.module.css';
 
 const SCROLL_SECONDS = 1.4;
@@ -12,12 +14,15 @@ const SCROLL_SECONDS = 1.4;
 /**
  * Fixed top bar (wordmark left, "menu" right) and a full-height panel that
  * slides in from the right with numbered links (§3.1). Links smooth-scroll
- * with Lenis. The bar blends with the page so it reads on both themes; the
- * panel is always dark. Reduced motion: the panel fades instead of sliding.
+ * with Lenis on the home page; from a detail page they route home through
+ * the page transition first. The bar blends with the page so it reads on
+ * both themes; the panel is always dark. Reduced motion: the panel fades.
  */
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const lenis = useLenis();
+  const pathname = usePathname();
+  const { navigate } = useTransition();
   const { phase } = useIntro();
   const bar = useRef<HTMLDivElement>(null);
   const panel = useRef<HTMLElement>(null);
@@ -98,6 +103,10 @@ export default function Nav() {
   function go(e: MouseEvent<HTMLAnchorElement>, href: string) {
     e.preventDefault();
     setOpen(false);
+    if (pathname !== '/') {
+      navigate(href === '#top' ? '/' : `/${href}`, { back: href === '#top' });
+      return;
+    }
     const immediate = prefersReducedMotion();
     // Next frame: the close effect has restarted Lenis by then.
     requestAnimationFrame(() => {
@@ -112,7 +121,12 @@ export default function Nav() {
   return (
     <header className={styles.header}>
       <div ref={bar} className={styles.bar}>
-        <a href="#top" className={`${styles.wordmark} u-underline`} onClick={(e) => go(e, '#top')}>
+        <a
+          href="#top"
+          className={`${styles.wordmark} u-underline`}
+          data-transition="none"
+          onClick={(e) => go(e, '#top')}
+        >
           {site.name}
         </a>
         <button
@@ -140,7 +154,13 @@ export default function Nav() {
         <ul className={styles.list}>
           {site.nav.map((item, i) => (
             <li key={item.href} className={styles.item}>
-              <a href={item.href} className={styles.link} data-nav-item onClick={(e) => go(e, item.href)}>
+              <a
+                href={item.href}
+                className={styles.link}
+                data-nav-item
+                data-transition="none"
+                onClick={(e) => go(e, item.href)}
+              >
                 <span className={`${styles.num} t-mono`}>{String(i + 1).padStart(2, '0')}</span>
                 <span className={`${styles.label} u-underline`}>{item.label}</span>
               </a>

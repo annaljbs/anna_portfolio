@@ -1,0 +1,23 @@
+/* 12 columns across the viewport, above everything but the preloader. */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-transition);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* Fixed near-black regardless of theme; overlaps its neighbour by 1px so
+   sub-pixel rounding never shows a seam. */
+.column {
+  display: block;
+  margin-right: -1px;
+  background: #0e0e0e;
+  transform: scaleY(0);
+  transform-origin: top center;
+  will-change: transform;
+}

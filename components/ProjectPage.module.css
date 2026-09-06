@@ -1,0 +1,234 @@
+/* Transparent: the body background carries the dark theme (§2.1). */
+.page {
+  padding: calc(var(--nav-height) + var(--gutter)) var(--gutter) clamp(4rem, 8vw, 8rem);
+  color: var(--text);
+}
+
+.hero {
+  display: grid;
+  gap: 2rem;
+  margin-bottom: clamp(4rem, 8vw, 8rem);
+}
+
+/* Keep the hero hidden until the intro timeline starts (JS present). */
+:global(html[data-intro]) .hero [data-hero-hide] {
+  visibility: hidden;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+}
+
+.back {
+  color: var(--ink);
+  text-transform: none;
+}
+
+/* In-progress banner (WIP projects only). */
+.banner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: 48rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: var(--fs-mono-sm);
+  color: var(--ink);
+}
+
+.page .title {
+  max-width: 14ch;
+  font-size: clamp(2.5rem, 8vw, 9rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.meta dt {
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+}
+
+.meta dd {
+  color: var(--ink);
+}
+
+/* Cover + media boxes: clip-path wipe on the box, scale on the inner. */
+.cover,
+.media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+.coverInner,
+.mediaInner {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.asset {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.video {
+  z-index: 1;
+}
+
+.page[data-status='wip'] .asset {
+  filter: grayscale(1);
+}
+
+.intro {
+  max-width: 40rem;
+  margin-bottom: clamp(4rem, 8vw, 8rem);
+}
+
+.intro p {
+  color: var(--ink);
+}
+
+/* Alternating text / media rows. */
+.block {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: var(--gutter);
+  align-items: center;
+  margin-bottom: clamp(4rem, 8vw, 8rem);
+}
+
+.block[data-flip] .blockText {
+  order: 2;
+}
+
+.blockText {
+  display: grid;
+  gap: 1rem;
+  max-width: 30rem;
+}
+
+.blockHeading {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gutter);
+  margin-bottom: clamp(4rem, 8vw, 8rem);
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.splitLabel {
+  margin-bottom: 1rem;
+  color: var(--muted);
+}
+
+.split p {
+  max-width: 34rem;
+  color: var(--ink);
+}
+
+/* 2–4 images; every third spans the full width. */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gutter);
+  margin-bottom: clamp(4rem, 8vw, 8rem);
+}
+
+.gallery > :nth-child(3n) {
+  grid-column: 1 / -1;
+}
+
+.next {
+  display: grid;
+  gap: 1.5rem;
+  padding-top: clamp(3rem, 6vw, 5rem);
+  border-top: 1px solid var(--line);
+}
+
+.nextCard {
+  display: grid;
+  gap: 1.25rem;
+  color: var(--ink);
+}
+
+.nextCard:hover .asset {
+  transform: scale(1.04);
+}
+
+.nextTitle {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35em;
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.nextCard:hover .arrow {
+  transform: translateX(6px);
+}
+
+@media (max-width: 768px) {
+  .meta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .block,
+  .split,
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .block[data-flip] .blockText {
+    order: 0;
+  }
+
+  .gallery > :nth-child(3n) {
+    grid-column: auto;
+  }
+}
