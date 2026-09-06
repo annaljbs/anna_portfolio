@@ -1,7 +1,7 @@
 # Anna — Portfolio
 
 Award-style single-page portfolio built from [portfolio-build-brief.md](./portfolio-build-brief.md).
-Build progress follows brief §5. Done: step 1 (scaffold, tokens, fonts, Lenis + GSAP, page frame, scroll progress, mail button, reduced motion), step 2 (preloader, nav, hero with live clock) and step 3 (About, Featured Work with live/WIP states and autoplaying previews, theme tween between sections).
+Build progress follows brief §5. Done: step 1 (scaffold, tokens, fonts, Lenis + GSAP, page frame, scroll progress, mail button, reduced motion), step 2 (preloader, nav, hero with live clock), step 3 (About, Featured Work with live/WIP states and autoplaying previews, theme tween between sections) and step 4 (Manifesto read-along quote, Skills rows, Q&A accordion).
 
 ## Run
 
@@ -57,10 +57,10 @@ Every top-level section in `app/page.tsx` declares `data-section-theme="light|da
 
 ```
 app/            layout (chrome + providers), home page, later work/[slug]
-components/     Preloader, Nav, Hero, Clock, About, Work, WorkCard, ProjectVideo,
-                ThemeController, Marquee (generic loop), SmoothScroll, PageFrame, ScrollProgress,
-                MailButton, IntroProvider
-content/        site.ts (copy, links, nav, section labels), projects.ts
+components/     Preloader, Nav, Hero, Clock, About, Work, WorkCard, ProjectVideo, Manifesto,
+                Skills, QA, ThemeController, Marquee (generic loop), SmoothScroll, PageFrame,
+                ScrollProgress, MailButton, IntroProvider, useSectionReveal, useExpandable (hooks)
+content/        site.ts (copy, links, nav, section labels, skills, Q&A), projects.ts
 lib/            gsap.ts, lenis.ts, fonts.ts, intro.ts, theme.ts
 public/         projects/ (clips + posters), placeholders/ (swap for images/ later)
 styles/         tokens.css, globals.css, type.css, fonts/

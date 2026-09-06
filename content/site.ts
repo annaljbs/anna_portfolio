@@ -42,6 +42,51 @@ export const site = {
     wipLabel: 'Case study coming soon',
     wipPill: 'In progress',
   },
+  /** Manifesto pull-quote — §3.5 */
+  manifesto: {
+    quote:
+      '[PLACEHOLDER] I build things for the web that feel considered: fast to load, clear to read and a little playful to use, because the details are what people remember.', // TODO: replace
+  },
+  /** (04) Skills — §3.6. Hints alternate per row; the arrow always points at the marker. */
+  skills: {
+    number: '04',
+    title: 'Skills',
+    hints: { before: 'click me →', after: '← click me' },
+    groups: [
+      { name: 'Frontend', items: ['React / Next.js', 'TypeScript', 'GSAP', 'CSS', 'Vue'] },
+      { name: 'Design', items: ['Figma', 'UI/UX', 'Prototyping'] },
+      { name: '3D & Motion', items: ['Blender', 'Grease Pencil', 'Adobe Animate'] },
+      { name: 'Tooling', items: ['Docker', 'Git', 'Laravel'] },
+    ], // TODO: replace
+  },
+  /** (05) Q&A — §3.7 */
+  qa: {
+    number: '05',
+    title: 'Q&A',
+    items: [
+      {
+        q: 'What kind of projects do you enjoy most?',
+        a: '[PLACEHOLDER] Two or three sentences. Keep the voice conversational; this is the one section that sounds like you talking.', // TODO: replace
+      },
+      {
+        q: "What do you do when you're not coding?",
+        a: '[PLACEHOLDER] Two or three sentences about life outside the editor.', // TODO: replace
+      },
+      {
+        q: 'What are you learning right now?',
+        a: '[PLACEHOLDER] Two or three sentences on current study or experiments.', // TODO: replace
+      },
+      {
+        q: "What's your favourite tool?",
+        a: '[PLACEHOLDER] Two or three sentences, and why.', // TODO: replace
+      },
+      {
+        q: 'How do you approach a new project?',
+        a: '[PLACEHOLDER] Two or three sentences on process: questions first, then sketches, then code.', // TODO: replace
+      },
+    ],
+  },
 } as const;
+
 
 export type Site = typeof site;

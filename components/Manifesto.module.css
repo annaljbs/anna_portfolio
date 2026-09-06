@@ -1,0 +1,21 @@
+/* Transparent: the body background carries the dark theme (§2.1). */
+.manifesto {
+  padding: clamp(6rem, 14vw, 14rem) var(--gutter);
+  color: var(--text);
+}
+
+.quote {
+  max-width: 60rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.text {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 2.5vw, 2.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}

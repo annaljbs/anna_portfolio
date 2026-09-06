@@ -1,6 +1,9 @@
 import Hero from '@/components/Hero';
 import About from '@/components/About';
 import Work from '@/components/Work';
+import Manifesto from '@/components/Manifesto';
+import Skills from '@/components/Skills';
+import QA from '@/components/QA';
 import ThemeController from '@/components/ThemeController';
 import styles from './page.module.css';
 
@@ -9,8 +12,8 @@ import styles from './page.module.css';
  * with data-section-theme (the hero, built earlier, uses data-theme);
  * ThemeController tweens the body background at every theme boundary and
  * flips html[data-theme] so text colours follow.
- * Hero, About and Work are real (steps 2–3); the stubs below give
- * the nav anchors a target until steps 4–5 replace them.
+ * Hero, About, Work, Manifesto, Skills and Q&A are real (steps 2–4); the
+ * Contact stub gives its nav anchor a target until step 5 replaces it.
  */
 export default function Home() {
   return (
@@ -19,14 +22,11 @@ export default function Home() {
       <Hero />
       <About />
       <Work />
+      <Manifesto />
+      <Skills />
+      <QA />
 
-      {/* TODO: replace — section stubs, see steps 4–5 of the brief. */}
-      <section id="skills" className={styles.stub} data-section-theme="light">
-        <p className="t-mono">(04) Skills — step 4</p>
-      </section>
-      <section id="qa" className={styles.stub} data-section-theme="dark">
-        <p className="t-mono">(05) Q&amp;A — step 4</p>
-      </section>
+      {/* TODO: replace — section stub, see step 5 of the brief. */}
       <section id="contact" className={styles.stub} data-section-theme="dark">
         <p className="t-mono">(03) Contact — step 5</p>
       </section>

@@ -1,0 +1,104 @@
+/* Transparent: the body background carries the light theme (§2.1). */
+.skills {
+  padding: clamp(7rem, 14vw, 13rem) var(--gutter);
+  color: var(--text);
+}
+
+.head {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.number {
+  color: var(--muted);
+}
+
+.list {
+  display: block;
+}
+
+.row {
+  position: relative;
+}
+
+/* 1px divider; drawn in (scaleX 0 → 1) by useSectionReveal. */
+.rule {
+  display: block;
+  height: 1px;
+  background: var(--muted);
+  transform-origin: left center;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+  padding: 1.5rem 0;
+  text-align: left;
+  color: var(--ink);
+}
+
+.name {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 4vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.hint {
+  color: var(--muted);
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.row[data-open] .hint {
+  opacity: 0;
+}
+
+.marker {
+  color: var(--ink);
+}
+
+/* Closed by CSS; useExpandable tweens the height. */
+.panel {
+  height: 0;
+  overflow: hidden;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  padding: 0 0 1.75rem;
+  font-family: var(--ff-body);
+  font-size: var(--fs-body-lg);
+  line-height: 1.4;
+  color: var(--text);
+}
+
+/* Dot after each item (not the last) so a wrapped line never starts with one. */
+.item:not(:last-child)::after {
+  content: '·';
+  margin: 0 0.75em;
+  color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .toggle {
+    padding: 1.25rem 0;
+  }
+
+  .items {
+    font-size: var(--fs-body);
+  }
+}
