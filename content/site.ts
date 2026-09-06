@@ -5,13 +5,13 @@
  */
 export const site = {
   firstName: 'Anna',
-  surname: '[SURNAME]', // TODO: replace
-  name: 'Anna', // TODO: replace with full name once surname is set
+  surname: 'Ljubas', // TODO: replace
+  name: 'Anna Ljubas', // TODO: replace with full name once surname is set
   tagline:
     '[PLACEHOLDER] Web developer & designer building interfaces that are fast, clear and a little playful.', // TODO: replace
-  location: '[CITY, COUNTRY]', // TODO: replace
+  location: 'Gunskirchen, Austria', // TODO: replace
   timezone: 'Europe/Vienna',
-  email: 'hello@example.com', // TODO: replace
+  email: 'ljubas.anna@hotmail.com', // TODO: replace
 } as const;
 
 export type Site = typeof site;
