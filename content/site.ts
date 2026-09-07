@@ -5,25 +5,25 @@
  */
 export const site = {
   firstName: 'Anna',
-  surname: 'Ljubas', // TODO: replace
-  name: 'Anna Ljubas', // TODO: replace with full name once surname is set
+  surname: 'Ljubas', 
+  name: 'Anna Ljubas', 
   tagline:
     '[PLACEHOLDER] Web developer & designer building interfaces that are fast, clear and a little playful.', // TODO: replace
-  location: 'Gunskirchen, Austria', // TODO: replace
+  location: 'Gunskirchen, Austria', 
   timezone: 'Europe/Vienna',
-  email: 'ljubas.anna@hotmail.com', // TODO: replace
+  email: 'ljubas.anna@hotmail.com', 
   initials: 'AL',
   /** Hero status pill (russellnumo). Set to '' to hide it. */
-  status: 'Open to work', // TODO: replace
+  status: 'Ready for work', 
   /** Hero portrait, 3:4. */
   portrait: '/images/portrait.webp',
   /** Menu links in the order the brief lists them; hrefs are section ids. */
   nav: [
     { label: 'About', href: '#about' },
     { label: 'Work', href: '#work' },
-    { label: 'Contact', href: '#contact' },
     { label: 'Skills', href: '#skills' },
     { label: 'Q&A', href: '#qa' },
+    { label: 'Contact', href: '#contact' },
   ],
   /** (01) About — §3.3 */
   about: {
@@ -49,19 +49,20 @@ export const site = {
   },
   /** (04) Skills — §3.6. Hints alternate per row; the arrow always points at the marker. */
   skills: {
-    number: '04',
+    number: '03',
     title: 'Skills',
     hints: { before: 'click me →', after: '← click me' },
     groups: [
-      { name: 'Frontend', items: ['React / Next.js', 'TypeScript', 'GSAP', 'CSS', 'Vue'] },
-      { name: 'Design', items: ['Figma', 'UI/UX', 'Prototyping'] },
-      { name: '3D & Motion', items: ['Blender', 'Grease Pencil', 'Adobe Animate'] },
-      { name: 'Tooling', items: ['Docker', 'Git', 'Laravel'] },
+      { name: 'Development', items: ['React / Next.js', 'TypeScript', 'GSAP', 'CSS', 'Vue'] },
+      { name: 'Design', items: ['Figma', 'Illustrator', 'Photoshop'] },
+      { name: '3D & Motion', items: ['Blender', 'After Effects', 'Adobe Animate'] },
+      { name: 'Video', items: ['Premiere Pro', 'DaVinci Resolve'] },
+      { name: 'Tools', items: ['VS Code', 'Git', 'AI'] },
     ], // TODO: replace
   },
   /** (05) Q&A — §3.7 */
   qa: {
-    number: '05',
+    number: '04',
     title: 'Q&A',
     items: [
       {
@@ -88,7 +89,7 @@ export const site = {
   },
   /** (03) Contact / footer — §3.8 */
   contact: {
-    number: '06',
+    number: '05',
     lead: "For enquiries, collaboration requests or job opportunities, don't hesitate to reach out!",
     title: 'Get in touch',
     copied: 'Email copied',
