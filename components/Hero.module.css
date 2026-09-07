@@ -14,11 +14,14 @@
 }
 
 /* Left column: name + tagline / meta row. Above the portrait so the
-   wider second name line can run over it (part of the billchien look). */
+   wider second name line can run over it (part of the billchien look). The
+   single column is capped at the track width so the meta row never
+   stretches to the (wider) name and ends up over the portrait. */
 .text {
   position: relative;
   z-index: 2;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: 1fr auto;
   row-gap: 2rem;
   min-width: 0;
@@ -27,14 +30,17 @@
 }
 
 
+/* Name lines stacked with the tagline underneath. With Anton at 22vw the
+   first line leaves no room beside it on ordinary desktops, so the brief's
+   side-by-side arrangement only applies from 2040px up (see below). */
 .nameBlock {
   align-self: end;
   display: grid;
-  grid-template-columns: max-content minmax(11rem, 17rem);
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
-    'line1 tagline'
-    'line2 line2';
-  column-gap: clamp(1rem, 2.5vw, 2.5rem);
+    'line1'
+    'line2'
+    'tagline';
   will-change: transform;
 }
 
@@ -44,13 +50,18 @@
 }
 
 /* Each line is a mask for the character slide-up; width: max-content keeps
-   the mask from clipping a line that is wider than the column. */
+   the mask from clipping a line that is wider than the column. The end
+   padding gives the last glyph's overshoot (trimmed by the negative
+   letter-spacing, visibly in Safari) room inside the mask; the matching
+   negative margin cancels it in the grid so nothing moves. */
 .line {
   display: block;
   width: max-content;
   overflow: hidden;
   white-space: nowrap;
   padding-bottom: 0.04em;
+  padding-inline-end: 0.12em;
+  margin-inline-end: -0.12em;
 }
 
 .line1 {
@@ -63,9 +74,26 @@
 
 .tagline {
   grid-area: tagline;
-  align-self: start;
-  max-width: 17rem;
-  padding-top: 0.35em;
+  max-width: 22rem;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+/* Wide enough for the tagline beside the first line (§3.2). */
+@media (min-width: 2040px) {
+  .nameBlock {
+    grid-template-columns: max-content minmax(11rem, 17rem);
+    grid-template-areas:
+      'line1 tagline'
+      'line2 line2';
+    column-gap: 2.5rem;
+  }
+
+  .tagline {
+    align-self: start;
+    max-width: 17rem;
+    margin-top: 0;
+    padding-top: 0.35em;
+  }
 }
 
 .meta {
@@ -143,18 +171,6 @@
 
   .text {
     padding-bottom: 2rem;
-  }
-
-  .nameBlock {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      'line1'
-      'line2'
-      'tagline';
-  }
-
-  .tagline {
-    padding-top: 1rem;
   }
 
   .meta {
