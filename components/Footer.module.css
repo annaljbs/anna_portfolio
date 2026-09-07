@@ -42,9 +42,12 @@
   justify-items: start;
 }
 
-.email {
+/* Email and "Email copied" share one grid cell: the label replaces the
+   address in place, so nothing below moves and nothing overlaps. */
+.footer .email {
   --underline-h: 0.06em;
   position: relative;
+  display: inline-grid;
   font-family: var(--ff-display);
   font-weight: 700;
   font-size: clamp(1.5rem, 3.5vw, 3.5rem);
@@ -53,18 +56,23 @@
   color: var(--ink);
 }
 
-/* "Email copied" appears under the link without shifting layout. */
+.emailText,
 .copied {
-  position: absolute;
-  left: 0;
-  top: 100%;
-  margin-top: 0.75rem;
-  color: var(--muted);
-  opacity: 0;
-  transform: translateY(4px);
+  grid-area: 1 / 1;
   transition:
     opacity var(--dur-fast) var(--ease-out),
     transform var(--dur-fast) var(--ease-out);
+}
+
+.copied {
+  align-self: center;
+  opacity: 0;
+  transform: translateY(0.3em);
+}
+
+.email[data-copied] .emailText {
+  opacity: 0;
+  transform: translateY(-0.3em);
 }
 
 .email[data-copied] .copied {

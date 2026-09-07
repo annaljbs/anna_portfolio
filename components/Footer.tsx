@@ -10,8 +10,9 @@ const COPIED_MS = 1600;
 
 /**
  * (03) Contact / footer (§3.8, russellnumo): lead line, huge "Get in touch",
- * the email as a large link (underline draw-in; click copies it and shows
- * "Email copied"), optional phone, local time, and a mono bottom bar with
+ * the email as a large link (underline draw-in; click copies it and swaps
+ * the text for "Email copied" in place), optional phone, local time, and a
+ * mono bottom bar with
  * copyright, socials and credit.
  *
  * Curtain reveal: the footer is position: sticky; bottom: 0 under the Q&A
@@ -131,8 +132,8 @@ export default function Footer() {
             onClick={copyEmail}
             data-copied={copied || undefined}
           >
-            {site.email}
-            <span className={`${styles.copied} t-mono`} aria-hidden="true">
+            <span className={styles.emailText}>{site.email}</span>
+            <span className={styles.copied} aria-hidden="true">
               {contact.copied}
             </span>
           </a>
