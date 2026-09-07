@@ -1,53 +1,110 @@
+/* ==========================================================================
+   Hero (§3.2) — layout and looks of the first screen.
+
+   WHERE THINGS LIVE
+   - Name size .......... styles/tokens.css → --fs-hero (currently
+                          clamp(6rem, min(22vw, 40svh), 26rem)).
+   - Words ............... content/site.ts → firstName, surname, tagline,
+                          location, timezone, status ('' hides the pill),
+                          portrait (image path).
+   - Motion .............. components/Hero.tsx → intro timings (char
+                          stagger 0.04 s, line-two delay 0.15 s, tagline at
+                          0.45 s, meta at 0.9 s), scroll parallax (portrait
+                          0.85×, name 1.05×, scale 1 → 1.08, fade by 60 %).
+                          Durations/eases: styles/tokens.css (--dur-*, --ease-*).
+   - Clock format ........ components/Clock.tsx → HOUR_12.
+   - Everything spatial .. this file. The values you are most likely to tune
+                          are collected as custom properties on .hero below;
+                          the rules further down only reference them.
+   ========================================================================== */
+
 .hero {
+  /* ── Settings ─────────────────────────────────────────────────────────── */
+  /* Portrait column width on desktop: 46 % of the hero, but never wider than
+     a 3:4 image at full height would be (75svh). Smaller = more room for the
+     name/tagline column. */
+  --hero-portrait-w: min(46%, 75svh);
+  /* Tagline column beside the first name line: narrowest and widest width. */
+  --hero-tagline-min: 11rem;
+  --hero-tagline-max: 17rem;
+  /* Horizontal gap between the first name line and the tagline. */
+  --hero-gap: clamp(1rem, 2.5vw, 2.5rem);
+  /* Pushes the tagline down so its first line sits on the name's cap height. */
+  --hero-tagline-offset: 0.35em;
+  /* Vertical space between the name block and the meta row. */
+  --hero-block-gap: 2rem;
+  /* Status pill ("● Open to work"): background and dot colour. */
+  --hero-status-bg: rgba(240, 240, 240, 0.85);
+  --hero-dot: #22c55e;
+  /* ≤ 768px: aspect ratio of the stacked portrait. */
+  --hero-mobile-portrait: 3 / 4;
+  /* ─────────────────────────────────────────────────────────────────────── */
+
+  /* Section shell. overflow: hidden clips the portrait's scroll parallax and
+     the name's overshoot; the background paints the light theme behind the
+     text column (the portrait covers the rest). */
   position: relative;
   overflow: hidden;
   background: var(--bg);
   color: var(--text);
 }
 
+/* Two columns: text (whatever is left) + portrait. Full viewport height. */
 .inner {
-  --portrait-w: min(46%, 75svh);
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--portrait-w);
+  grid-template-columns: minmax(0, 1fr) var(--hero-portrait-w);
   min-height: 100svh;
 }
 
-/* Left column: name + tagline / meta row. Above the portrait so the
-   wider second name line can run over it (part of the billchien look). */
+/* Text column: name block on top (pushed to the bottom of its row), meta row
+   underneath. z-index keeps it above the portrait so the wider second name
+   line can run over the photo (part of the billchien look). Padding clears
+   the fixed nav bar at the top and the progress bar at the bottom.
+
+   grid-template-columns caps this column at the track width. Without it the
+   single implicit column sizes to its widest child — the name block, which
+   is deliberately wider than the track — and the meta row's space-between
+   then spreads the live clock out over the photo. */
 .text {
   position: relative;
   z-index: 2;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: 1fr auto;
-  row-gap: 2rem;
+  row-gap: var(--hero-block-gap);
   min-width: 0;
   padding: calc(var(--nav-height) + var(--frame-inset)) var(--gutter)
     calc(var(--gutter) + var(--frame-inset) + var(--progress-height));
 }
 
-
+/* Name block: a small grid with the tagline beside the first line and the
+   second line spanning underneath. To put the tagline under the name
+   instead, use one column and the areas 'line1' / 'line2' / 'tagline' (see
+   the ≤ 768px block at the bottom for the pattern). The scroll parallax in
+   Hero.tsx transforms this element. */
 .nameBlock {
   align-self: end;
   display: grid;
-  grid-template-columns: max-content minmax(11rem, 17rem);
+  grid-template-columns: max-content minmax(var(--hero-tagline-min), var(--hero-tagline-max));
   grid-template-areas:
     'line1 tagline'
     'line2 line2';
-  column-gap: clamp(1rem, 2.5vw, 2.5rem);
+  column-gap: var(--hero-gap);
   will-change: transform;
 }
 
-/* The heading's two lines participate in the grid directly. */
+/* The <h1> itself has no box; its two line spans are placed by the grid. */
 .name {
   display: contents;
 }
 
-/* Each line is a mask for the character slide-up. The clip-path only clips
-   at the bottom edge: it reaches 0.15em above and 0.3em beyond both sides,
-   so Anton's tight side bearings and the -0.01em letter-spacing can no
-   longer trim the last glyph (the "S"), while chars still rise from below.
-   width: max-content keeps a line wider than the column unclipped. */
+/* One name line = the mask for the character slide-up. The clip-path clips
+   only at the bottom edge (it reaches 0.15em above and 0.3em beyond both
+   sides), so Anton's tight side bearings and the -0.01em letter-spacing can
+   never trim the last glyph, while the characters still rise from below.
+   width: max-content lets a line be wider than the column without clipping;
+   the small bottom padding keeps descender-less glyph overshoot inside. */
 .line {
   display: block;
   width: max-content;
@@ -64,21 +121,29 @@
   grid-area: line2;
 }
 
+/* Tagline: top-aligned with the first name line, capped in width. */
 .tagline {
   grid-area: tagline;
   align-self: start;
-  max-width: 17rem;
-  padding-top: 0.35em;
+  max-width: var(--hero-tagline-max);
+  padding-top: var(--hero-tagline-offset);
 }
 
+/* Meta row: location · date · time spread across the column. Flex with wrap
+   rather than three fixed columns, so the cells drop to a second line by
+   themselves when the column gets too narrow (roughly below 800px) instead
+   of overflowing onto the photo. No breakpoint needed. */
 .meta {
-  display: grid;
-  grid-template-columns: repeat(3, max-content);
+  display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 1rem 2rem;
   color: var(--muted);
 }
 
+/* Portrait column: full height, image cropped with object-fit (Hero.tsx).
+   The wrapper gets the clip-path wipe on load and the y/scale parallax on
+   scroll; the inner element gets the 1.15 → 1 zoom on load. */
 .portrait {
   position: relative;
   height: 100%;
@@ -93,7 +158,7 @@
   will-change: transform;
 }
 
-/* Bottom-right, clear of the floating mail button. */
+/* Status pill: bottom-right, offset left so it clears the mail button. */
 .status {
   position: absolute;
   right: calc(var(--frame-inset) + 1.5rem + var(--mail-size) + 1rem);
@@ -104,17 +169,19 @@
   gap: 0.5rem;
   padding: 0.55rem 0.8rem;
   border-radius: 999px;
-  background: rgba(240, 240, 240, 0.85);
+  background: var(--hero-status-bg);
   color: var(--ink);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
 
+/* Pulsing dot inside the pill (2.4 s loop; disabled under reduced motion by
+   the global rule in styles/globals.css). */
 .dot {
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  background: #22c55e;
+  background: var(--hero-dot);
   animation: pulse 2.4s ease-in-out infinite;
 }
 
@@ -130,15 +197,36 @@
   }
 }
 
-/* Keep the content hidden until the intro timeline starts (JS present). */
+/* Hidden until the intro timeline starts (only when JS is running, which
+   sets html[data-intro]); the timeline switches these back to visible. */
 :global(html[data-intro]) .text,
 :global(html[data-intro]) .portrait,
 :global(html[data-intro]) .status {
   visibility: hidden;
 }
 
-/* Minimal stack so the hero is usable on small screens; the full responsive
-   pass is build step 7. */
+/* 769–1250px (tablets, half-screen windows): the two-column layout stays,
+   but there is no room for the tagline beside the first name line — at this
+   name size it would need the column to be ~5400px wide — so it stacks under
+   the name, as it already does below 769px. Everything else scales with vw.
+   Above 1250px the arrangement is unchanged. */
+@media (min-width: 769px) and (max-width: 1250px) {
+  .nameBlock {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'line1'
+      'line2'
+      'tagline';
+  }
+
+  .tagline {
+    max-width: min(var(--hero-tagline-max), 100%);
+    padding-top: 1rem;
+  }
+}
+
+/* ≤ 768px: single column — name, tagline, meta, then the portrait — and the
+   status pill sits in the flow below the portrait. */
 @media (max-width: 768px) {
   .inner {
     grid-template-columns: 1fr;
@@ -160,13 +248,9 @@
     padding-top: 1rem;
   }
 
-  .meta {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .portrait {
     min-height: 0;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: var(--hero-mobile-portrait);
   }
 
   .status {
