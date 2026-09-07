@@ -97,7 +97,7 @@ export const projects: Project[] = [
     description:
       '[PLACEHOLDER] One or two lines on what the project is, who it was for and what you did.', // TODO: replace
     cover: '/projects/project2.jpeg',
-    video: { mp4: '/projects/project2.mp4' },
+    video: { mp4: '/projects/project2-small.mp4' },
     status: 'live',
     ...placeholderDetail,
     blocks: [

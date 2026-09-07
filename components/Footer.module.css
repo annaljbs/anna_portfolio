@@ -30,6 +30,7 @@
 
 /* Bigger than the section titles: this is the page's closing line. */
 .footer .title {
+  text-transform: uppercase;
   font-size: clamp(3rem, 11vw, 12rem);
   line-height: 0.9;
   letter-spacing: -0.04em;

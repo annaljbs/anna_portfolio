@@ -24,6 +24,7 @@
 
 .head .title {
   grid-area: title;
+  text-transform: uppercase;
 }
 
 .hint {

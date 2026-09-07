@@ -18,8 +18,8 @@ import Clock from './Clock';
 import styles from './Hero.module.css';
 
 /**
- * Hero (§3.2, billchien): monogram tile, two-line name, tagline beside the
- * first line, location · date · live time row, full-height portrait.
+ * Hero (§3.2, billchien): two-line name, tagline, location · date · live
+ * time row, full-height portrait. (The monogram tile was dropped.)
  *
  * Intro (plays when the preloader hands over): name letters slide up per
  * character, tagline lines follow, meta row fades up last, portrait wipes in
@@ -76,7 +76,6 @@ export default function Hero() {
               { yPercent: 110, duration: DUR.base, ease: EASE.out, stagger: STAGGER },
               0.45,
             )
-            .from(q('[data-hero-tile]'), { autoAlpha: 0, y: 12, duration: DUR.base, ease: EASE.out }, 0.3)
             .fromTo(
               q('[data-hero-portrait]'),
               { clipPath: 'inset(0 0 100% 0)' },
@@ -157,10 +156,6 @@ export default function Hero() {
     <section ref={root} id="top" className={styles.hero} data-theme="light">
       <div className={styles.inner} data-hero-inner>
         <div className={styles.text} data-hero-hide>
-          <div className={styles.tile} data-hero-tile aria-hidden="true">
-            {site.initials}
-          </div>
-
           <div className={styles.nameBlock} data-hero-name>
             <h1 className={`${styles.name} t-hero`}>
               <span className={`${styles.line} ${styles.line1}`} data-hero-line>

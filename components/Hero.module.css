@@ -13,32 +13,19 @@
   min-height: 100svh;
 }
 
-/* Left column: tile / name + tagline / meta row. Above the portrait so the
+/* Left column: name + tagline / meta row. Above the portrait so the
    wider second name line can run over it (part of the billchien look). */
 .text {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: 1fr auto;
   row-gap: 2rem;
   min-width: 0;
   padding: calc(var(--nav-height) + var(--frame-inset)) var(--gutter)
     calc(var(--gutter) + var(--frame-inset) + var(--progress-height));
 }
 
-.tile {
-  display: grid;
-  place-items: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 12px;
-  background: var(--ink);
-  color: var(--bg);
-  font-family: var(--ff-display);
-  font-weight: 700;
-  font-size: 1.25rem;
-  letter-spacing: -0.03em;
-}
 
 .nameBlock {
   align-self: end;

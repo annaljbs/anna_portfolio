@@ -26,7 +26,7 @@ export default function Skills() {
         <span className={`${styles.number} t-mono`} data-reveal>
           ({site.skills.number})
         </span>
-        <h2 className="t-display" data-reveal>
+        <h2 className={`${styles.title} t-display`} data-reveal>
           {site.skills.title}
         </h2>
       </header>
