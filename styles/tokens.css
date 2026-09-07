@@ -12,7 +12,7 @@
   --ff-mono: var(--font-mono), ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* Fluid type scale (§2.2). */
-  --fs-hero: clamp(6rem, 22vw, 26rem);
+  --fs-hero: clamp(6rem, min(22vw, 40svh), 26rem); /* vh cap like billchien's 45vh sizing */
   --fs-display: clamp(2.5rem, 7vw, 8rem);
   --fs-marquee: clamp(5rem, 18vw, 22rem);
   --fs-body: 0.9375rem; /* 15px */

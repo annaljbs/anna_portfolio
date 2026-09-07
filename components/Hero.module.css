@@ -43,12 +43,15 @@
   display: contents;
 }
 
-/* Each line is a mask for the character slide-up; width: max-content keeps
-   the mask from clipping a line that is wider than the column. */
+/* Each line is a mask for the character slide-up. The clip-path only clips
+   at the bottom edge: it reaches 0.15em above and 0.3em beyond both sides,
+   so Anton's tight side bearings and the -0.01em letter-spacing can no
+   longer trim the last glyph (the "S"), while chars still rise from below.
+   width: max-content keeps a line wider than the column unclipped. */
 .line {
   display: block;
   width: max-content;
-  overflow: hidden;
+  clip-path: inset(-0.15em -0.3em 0 -0.3em);
   white-space: nowrap;
   padding-bottom: 0.04em;
 }
