@@ -77,12 +77,11 @@ export default function About() {
           </h2>
         </div>
         <div className={styles.copy}>
-          <p className={`${styles.lead} t-body-lg`} data-lines>
-            {site.about.lead}
-          </p>
-          <p className="t-body" data-lines>
-            {site.about.body}
-          </p>
+          {site.about.lead.split('\n\n').map((paragraph) => (
+            <p key={paragraph} className={`${styles.lead} t-body-lg`} data-lines>
+              {paragraph}
+            </p>
+          ))}
         </div>
       </div>
 
@@ -91,6 +90,7 @@ export default function About() {
           <li key={role}>{role}</li>
         ))}
       </ul>
+      {/* EDIT: duration = seconds per loop of the roles band; lower = faster. */}
       <Marquee duration={18} pauseOnHover className={styles.roles} itemClassName={styles.roleItem}>
         {site.about.roles.map((role) => (
           <span key={role} className={styles.role}>

@@ -15,7 +15,9 @@ import {
   MOTION_OK,
   MOTION_REDUCED,
 } from '@/lib/gsap';
+import { toEmbedUrl } from '@/lib/embed';
 import { useIntro } from './IntroProvider';
+import ProjectEmbed from './ProjectEmbed';
 import ProjectVideo from './ProjectVideo';
 import ThemeController from './ThemeController';
 import styles from './ProjectPage.module.css';
@@ -44,6 +46,7 @@ export default function ProjectPage({ project, index, next }: Props) {
   const intro = useRef<gsap.core.Timeline | null>(null);
   const shouldPlay = useRef(false);
   const wip = project.status === 'wip';
+  const embed = wip ? null : toEmbedUrl(project.embed);
 
   useEffect(() => {
     const el = root.current;
@@ -179,32 +182,49 @@ export default function ProjectPage({ project, index, next }: Props) {
             </div>
           </dl>
 
-          <div className={styles.cover} data-hero-cover data-hero-hide>
+          <div className={styles.cover} data-hero-cover data-hero-hide data-embed={embed ? '' : undefined}>
             <div className={styles.coverInner} data-hero-cover-inner>
-              <Image
-                src={project.cover}
-                alt=""
-                fill
-                priority
-                sizes="100vw"
-                className={styles.asset}
-                unoptimized={project.cover.endsWith('.svg')}
-              />
-              {!wip && project.video && (
-                <ProjectVideo video={project.video} poster={project.cover} className={`${styles.asset} ${styles.video}`} />
+              {embed ? (
+                <ProjectEmbed src={embed} title={project.title} className={styles.embed} />
+              ) : (
+                <>
+                  <Image
+                    src={project.cover}
+                    alt=""
+                    fill
+                    priority
+                    sizes="100vw"
+                    className={styles.asset}
+                    unoptimized={project.cover.endsWith('.svg')}
+                  />
+                  {!wip && project.video && project.videoOnPage !== false && (
+                    <ProjectVideo
+                      video={project.video}
+                      poster={project.cover}
+                      className={`${styles.asset} ${styles.video}`}
+                    />
+                  )}
+                </>
               )}
             </div>
           </div>
         </header>
 
-        <section className={styles.intro}>
-          <p className="t-body-lg" data-reveal>
-            {project.intro}
-          </p>
-        </section>
+        {project.intro && (
+          <section className={styles.intro}>
+            <p className="t-body-lg" data-reveal>
+              {project.intro}
+            </p>
+          </section>
+        )}
 
         {project.blocks.map((block, i) => (
-          <section key={block.heading + i} className={styles.block} data-flip={i % 2 === 1 || undefined}>
+          <section
+            key={block.heading + i}
+            className={styles.block}
+            data-flip={i % 2 === 1 || undefined}
+            data-text-only={!block.media || undefined}
+          >
             <div className={styles.blockText}>
               <h2 className={styles.blockHeading} data-reveal>
                 {block.heading}
@@ -213,26 +233,35 @@ export default function ProjectPage({ project, index, next }: Props) {
                 {block.text}
               </p>
             </div>
-            <MediaBox media={block.media} sizes="(max-width: 768px) 100vw, 60vw" />
+            {block.media && <MediaBox media={block.media} sizes="(max-width: 768px) 100vw, 60vw" />}
           </section>
         ))}
 
-        <section className={styles.split}>
-          <div data-reveal>
-            <h2 className={`${styles.splitLabel} t-mono`}>{labels.challenge}</h2>
-            <p className="t-body-lg">{project.challenge}</p>
-          </div>
-          <div data-reveal>
-            <h2 className={`${styles.splitLabel} t-mono`}>{labels.solution}</h2>
-            <p className="t-body-lg">{project.solution}</p>
-          </div>
-        </section>
+        {(project.challenge || project.solution) && (
+          <section className={styles.split}>
+            {project.challenge && (
+              <div data-reveal>
+                <h2 className={`${styles.splitLabel} t-mono`}>{labels.challenge}</h2>
+                <p className="t-body-lg">{project.challenge}</p>
+              </div>
+            )}
+            {project.solution && (
+              <div data-reveal>
+                <h2 className={`${styles.splitLabel} t-mono`}>{labels.solution}</h2>
+                <p className="t-body-lg">{project.solution}</p>
+              </div>
+            )}
+          </section>
+        )}
 
-        <section className={styles.gallery} aria-label="Gallery">
-          {project.gallery.slice(0, 4).map((media, i) => (
-            <MediaBox key={media.src + i} media={media} sizes="(max-width: 768px) 100vw, 50vw" />
-          ))}
-        </section>
+        {project.gallery.length > 0 && (
+          <section className={styles.gallery} aria-label="Gallery">
+            {/* EDIT: the gallery shows at most 4 pictures; the 3rd spans the full width. */}
+            {project.gallery.slice(0, 4).map((media, i) => (
+              <MediaBox key={media.src + i} media={media} sizes="(max-width: 768px) 100vw, 50vw" />
+            ))}
+          </section>
+        )}
 
         {next && (
           <section className={styles.next}>

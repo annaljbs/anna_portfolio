@@ -2,8 +2,53 @@
  * Featured work (§3.4) and its detail pages (§3.9). Rows render in this
  * order. `status: 'wip'` rows show the in-progress state on the home page
  * (grayscale cover, no video, no link) and an "In progress" banner with
- * placeholder blocks on their detail page. Media boxes use object-fit:
+ * placeholder blocks on their detail page. `video` is the muted loop,
+ * `embed` a full YouTube/Vimeo video on the detail page. Media boxes use object-fit:
  * cover, so any cover/clip size works. Placeholders carry a TODO.
+ *
+ * ─── EDIT: HOW TO CHANGE PROJECTS ─────────────────────────────────────────
+ * Every project is one { … } block in the `projects` list at the bottom.
+ * The order of the blocks = the order on the home page.
+ *  - Add:     copy a whole block (from `{` to `},`), paste it, give it a new slug.
+ *  - Delete:  remove the whole block.
+ *  - Reorder: move whole blocks up or down.
+ *
+ * Fields (? = optional, delete the line if you don't need it):
+ *  slug         page address → /work/<slug>. lowercase-with-dashes, unique.
+ *  title        big project title (home row + project page).
+ *  category     small label (home row + "Category" on the project page).
+ *  year         e.g. '2026'.
+ *  description  one or two lines under the title on the home page.
+ *  cover        picture for the home row, the project page top and the
+ *               "Next project" card. Always needed.
+ *  video?       { mp4: '…' } short muted loop over the cover (home row and
+ *               project page top). Optional { mp4, webm } for a smaller webm.
+ *  videoOnPage? false = loop only on the home row; project page shows the cover.
+ *  embed?       YouTube or Vimeo link (youtube.com/watch?v=…, youtu.be/…,
+ *               vimeo.com/123…). Replaces the cover at the top of the project
+ *               page with a player. Search/playlist links are ignored.
+ *  status       'live' = clickable; 'wip' = grey "In progress", no link,
+ *               no video/player.
+ *  role         "Role" in the project page meta row.
+ *  stack        tools list, e.g. ['Blender', 'After Effects'].
+ *  intro?       first paragraph on the project page; leave out to hide it.
+ *  blocks       text + picture sections, as many as you like:
+ *               { heading: '…', text: '…', media: { src: '…', alt: '…' } }
+ *               Leave out `media` for a text-only section.
+ *  challenge? / solution?   the two-column text block; leave both out to hide it.
+ *  gallery      up to 4 pictures at the bottom ([] hides the gallery).
+ *
+ * Every project has its own full set of fields and placeholder media, so
+ * each one can be changed on its own: delete a block or gallery picture you
+ * don't need (the whole { … }, line), or copy one to add more.
+ *
+ * Files: put them in public/projects/<number>/ and write the path WITHOUT
+ * "public", e.g. public/projects/03/cover.jpg → '/projects/03/cover.jpg'.
+ *  Pictures: .jpg .jpeg .png .webp .avif .gif .svg — ~2000–2500 px wide.
+ *  Loops:    .mp4 (H.264), muted, 5–15 s, under ~10 MB; optional .webm.
+ *            .mov/.mkv do not play in all browsers — export to .mp4.
+ *  alt:      short description of the picture for screen readers.
+ * ──────────────────────────────────────────────────────────────────────────
  */
 export type ProjectStatus = 'live' | 'wip';
 
@@ -20,7 +65,8 @@ export type ProjectMedia = {
 export type ProjectBlock = {
   heading: string;
   text: string;
-  media: ProjectMedia;
+  /** Omit for a text-only block. */
+  media?: ProjectMedia;
 };
 
 export type Project = {
@@ -33,99 +79,317 @@ export type Project = {
   cover: string;
   /** Autoplaying muted preview; omit for a static cover. */
   video?: ProjectVideo;
+  /** false: the preview loops on the home card only; the detail hero stays static. */
+  videoOnPage?: boolean;
+  /** YouTube or Vimeo link, played in the detail hero instead of the cover. */
+  embed?: string;
   status: ProjectStatus;
   /* Detail page (§3.9) */
   role: string;
   stack: string[];
-  intro: string;
+  /** Omit to hide the intro paragraph. */
+  intro?: string;
   blocks: ProjectBlock[];
-  challenge: string;
-  solution: string;
+  /** Omit both to hide the Challenge / Solution block. */
+  challenge?: string;
+  solution?: string;
   gallery: ProjectMedia[];
 };
 
-const placeholder = (n: 1 | 2 | 3): ProjectMedia => ({ src: `/placeholders/media-${n}.svg`, alt: '' }); // TODO: replace
-
-const placeholderBlocks: ProjectBlock[] = [
-  {
-    heading: '[PLACEHOLDER] Concept', // TODO: replace
-    text: '[PLACEHOLDER] A short paragraph on the idea and the first decisions: what the piece had to do and what it deliberately left out.', // TODO: replace
-    media: placeholder(1),
-  },
-  {
-    heading: '[PLACEHOLDER] Build', // TODO: replace
-    text: '[PLACEHOLDER] A short paragraph on how it was made: tools, the tricky part, and what you would do differently.', // TODO: replace
-    media: placeholder(2),
-  },
-];
-
-const placeholderDetail = {
-  role: '[PLACEHOLDER] Design & development', // TODO: replace
-  stack: ['Next.js', 'GSAP', 'Blender'], // TODO: replace
-  intro:
-    '[PLACEHOLDER] One paragraph that sets the project up: who it was for, what the brief asked, and the constraint that shaped it.', // TODO: replace
-  blocks: placeholderBlocks,
-  challenge:
-    '[PLACEHOLDER] What made this hard: the audience, the timeline, the technology, or the thing nobody had done before.', // TODO: replace
-  solution:
-    '[PLACEHOLDER] What you did about it, and the outcome in one or two concrete sentences.', // TODO: replace
-  gallery: [placeholder(3), placeholder(1), placeholder(2)],
-};
-
+// EDIT: the project list. One { … } block per project, in display order.
 export const projects: Project[] = [
   {
     slug: 'project-one',
-    title: '[PLACEHOLDER] Project One', // TODO: replace
-    category: '[PLACEHOLDER] Web design & development', // TODO: replace
-    year: '2026',
+    title: 'YUGOSLAVIA',
+    category: 'FILM',
+    year: '2027',
     description:
-      '[PLACEHOLDER] One or two lines on what the project is, who it was for and what you did.', // TODO: replace
+      'Work in progress — Short Documentary about the Life in former Yugoslavia told from the Perspective of someone\'s Grandmother.', // TODO: replace
     cover: '/projects/project1.jpeg',
-    video: { mp4: '/projects/project1.mp4' },
-    status: 'live',
-    ...placeholderDetail,
+    embed: 'https://www.youtube.com/watch?v=Y-x0efG1seA', // TODO: paste the YouTube/Vimeo link when the film is finished, then set status to 'live'
+    status: 'wip',
+    role: 'Director, Producer, Editor, Cinematographer, Sound Designer', // TODO: replace
+    stack: ['DaVinci Resolve', 'Premiere Pro', 'After Effects'], // TODO: replace
+    intro:
+      '[PLACEHOLDER] One paragraph that sets the project up: who it was for, what the brief asked, and the constraint that shaped it.', // TODO: replace
     blocks: [
-      { ...placeholderBlocks[0], media: { src: '/projects/project1.jpeg', alt: '' } },
-      placeholderBlocks[1],
+      {
+        heading: '[PLACEHOLDER] Concept', // TODO: replace
+        text: '[PLACEHOLDER] A short paragraph on the idea and the first decisions: what the piece had to do and what it deliberately left out.', // TODO: replace
+        media: { src: '/projects/project2.jpeg', alt: '' },
+      },
+      {
+        heading: '[PLACEHOLDER] Build', // TODO: replace
+        text: '[PLACEHOLDER] A short paragraph on how it was made: tools, the tricky part, and what you would do differently.', // TODO: replace
+        media: { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/01/block-2.jpg
+      },
+    ],
+    challenge:
+      '[PLACEHOLDER] What made this hard: the audience, the timeline, the technology, or the thing nobody had done before.', // TODO: replace
+    solution:
+      '[PLACEHOLDER] What you did about it, and the outcome in one or two concrete sentences.', // TODO: replace
+    gallery: [
+      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/01/gallery-1.jpg
+      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/01/gallery-2.jpg
+      { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/01/gallery-3.jpg
     ],
   },
+  // -----------
+  // PROJECT TWO
+  // -----------
   {
     slug: 'project-two',
-    title: '[PLACEHOLDER] Project Two', // TODO: replace
-    category: '[PLACEHOLDER] Interactive experience', // TODO: replace
-    year: '2025',
-    description:
-      '[PLACEHOLDER] One or two lines on what the project is, who it was for and what you did.', // TODO: replace
-    cover: '/projects/project2.jpeg',
-    video: { mp4: '/projects/project2-small.mp4' },
-    status: 'live',
-    ...placeholderDetail,
-    blocks: [
-      { ...placeholderBlocks[0], media: { src: '/projects/project2.jpeg', alt: '' } },
-      placeholderBlocks[1],
-    ],
-  },
-  {
-    slug: 'project-three',
-    title: '[PLACEHOLDER] Project Three', // TODO: replace
-    category: '[PLACEHOLDER] Motion & 3D', // TODO: replace
+    title: 'HEX\'N CATCH',
+    category: 'GAME', 
     year: '2026',
     description:
-      '[PLACEHOLDER] Work in progress — a short teaser line about what is coming.', // TODO: replace
-    cover: '/placeholders/project-3.svg', // TODO: replace
-    status: 'wip',
-    ...placeholderDetail,
+      'Hide, drink, and survive. In this 4-player asymmetrical party game, three undercover witches must chug their way to victory while dodging the ultimate buzzkill: a Witch Hunter tasked with catching them before they black out.', // TODO: replace
+    cover: '/placeholders/project-3.svg', // TODO: replace → /projects/02/cover.jpg
+    embed: 'https://youtu.be/5cZa_0SY_P8',
+    status: 'live',
+    role: 'UI/UX Designer, Game Designer, Editor, Colorist',
+    stack: ['Unity', 'Figma', 'Illustrator', 'Premiere Pro', 'DaVinci Resolve'],
+    intro:
+      'This project was a collaborative effort to create a unique and engaging party game. My role was to design the user interface and ensure a seamless gameplay experience. The Project Video was filmed and edited by me.', // TODO: replace
+    blocks: [
+    ],
+    challenge:
+      'The challenge was to create a user-friendly interface that would enhance the gameplay experience.',
+    solution:
+      'I designed a clean and intuitive interface that made it easy for players to navigate the game and access the information they needed.',
+    gallery: [
+      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/02/gallery-1.jpg
+      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/02/gallery-2.jpg
+      // { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/02/gallery-3.jpg
+    ],
+  },
+  // -----------
+  // PROJECT THREE
+  // -----------
+  {
+    slug: 'project-three',
+    title: 'LIZZY', 
+    category: '3D',
+    year: '2026',
+    description:
+      'Rigging and animation work for a 3D character.',
+    cover: '/placeholders/project-4.svg', // TODO: replace → /projects/03/cover.jpg
+    video: { mp4: '/projects/03/loop.mp4' }, // TODO: add this file (short muted loop)
+    status: 'live',
+    role: 'Rigging and Animation',
+    stack: ['Blender'],
+    intro:
+      'Rigging and Animation Work for a 3D Character.', // TODO: replace
+    blocks: [
+      
+    ],
+    challenge:
+      'The challenge was to create a realistic and fluid animation for the 3D character.', // TODO: replace
+    solution:
+      'I created a detailed rig and animated the character using keyframe animation to achieve a natural look and feel.', // TODO: replace
+    gallery: [
+      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/03/gallery-1.jpg
+      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/03/gallery-2.jpg
+      // { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/03/gallery-3.jpg
+    ],
   },
   {
     slug: 'project-four',
-    title: '[PLACEHOLDER] Project Four', // TODO: replace
-    category: '[PLACEHOLDER] Brand & UI', // TODO: replace
+    title: 'LIVING ROOM',
+    category: 'GAME',
     year: '2026',
     description:
-      '[PLACEHOLDER] Work in progress — a short teaser line about what is coming.', // TODO: replace
-    cover: '/placeholders/project-4.svg', // TODO: replace
-    status: 'wip',
-    ...placeholderDetail,
+      'A game about a living room. Players explore the space and interact with objects.',
+    cover: '/placeholders/project-3.svg', // TODO: replace → /projects/04/cover.jpg
+    embed: 'https://youtu.be/ZoMl3_uF2AQ',
+    status: 'live',
+    role: 'Coding with Blueprints, Trailer Production',
+    stack: ['Unreal Engine', 'C++', 'Premiere Pro'],
+    intro:
+      'A game about a living room. Players explore the space, interact with objects and play mini-games.', // TODO: replace
+    blocks: [
+    ],
+    challenge:
+      'Work with Blueprints without any prior experience.',
+    solution:
+      'Thankfully, YouTube Tutorials and online resources helped me learn and master the use of Blueprints',
+    gallery: []
+  },
+  // -----------
+  // PROJECT FIVE
+  // -----------
+  {
+    slug: 'project-five',
+    title: 'QUESTIFY - Case Study',
+    category: 'UI/UX, Design', 
+    year: '2026',
+    description:
+      'Prototype for a new gamification app.',
+    cover: '/placeholders/project-3.svg', // TODO: replace → /projects/06/cover.jpg
+    status: 'live',
+    role: 'UI/UX Design',
+    stack: ['Figma', 'Illustrator'], 
+    intro:
+      'Low-fidelity and High-fidelity prototyping for a gamification app, that turns everyday tasks like studying, homework, or exercise into exciting quests.', // TODO: replace
+    blocks: [
+      {
+        heading: 'CONCEPT', // TODO: replace
+        text: 'The concept was to create a gamification app that would make everyday tasks more engaging and fun.', // TODO: replace
+        media: { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/06/block-1.jpg
+      },
+      {
+        heading: '[PLACEHOLDER] Build', // TODO: replace
+        text: '[PLACEHOLDER] A short paragraph on how it was made: tools, the tricky part, and what you would do differently.', // TODO: replace
+        media: { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/06/block-2.jpg
+      },
+    ],
+    challenge:
+      '[PLACEHOLDER] What made this hard: the audience, the timeline, the technology, or the thing nobody had done before.', // TODO: replace
+    solution:
+      '[PLACEHOLDER] What you did about it, and the outcome in one or two concrete sentences.', // TODO: replace
+    gallery: [
+      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/06/gallery-1.jpg
+      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/06/gallery-2.jpg
+      { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/06/gallery-3.jpg
+    ],
+  },
+  {
+    slug: 'project-six',
+    title: '[PLACEHOLDER] Project Six', // TODO: replace
+    category: '[PLACEHOLDER] Image video', // TODO: replace
+    year: '2026',
+    description:
+      '[PLACEHOLDER] One or two lines on what the project is, who it was for and what you did.', // TODO: replace
+    cover: '/placeholders/project-4.svg', // TODO: replace → /projects/07/cover.jpg
+    video: { mp4: '/projects/07/loop.mp4' }, // TODO: add this file (short snippet of the film)
+    embed: 'https://www.youtube.com/watch?v=Y-x0efG1seA', // TODO: paste the YouTube/Vimeo link of the full image video
+    status: 'live',
+    role: '[PLACEHOLDER] Design & development', // TODO: replace
+    stack: ['Next.js', 'GSAP', 'Blender'], // TODO: replace
+    intro:
+      '[PLACEHOLDER] One paragraph that sets the project up: who it was for, what the brief asked, and the constraint that shaped it.', // TODO: replace
+    blocks: [
+      {
+        heading: '[PLACEHOLDER] Concept', // TODO: replace
+        text: '[PLACEHOLDER] A short paragraph on the idea and the first decisions: what the piece had to do and what it deliberately left out.', // TODO: replace
+      },
+      {
+        heading: '[PLACEHOLDER] Build', // TODO: replace
+        text: '[PLACEHOLDER] A short paragraph on how it was made: tools, the tricky part, and what you would do differently.', // TODO: replace
+      },
+    ],
+    challenge:
+      '[PLACEHOLDER] What made this hard: the audience, the timeline, the technology, or the thing nobody had done before.', // TODO: replace
+    solution:
+      '[PLACEHOLDER] What you did about it, and the outcome in one or two concrete sentences.', // TODO: replace
+    gallery: [], // no pictures for this project
+  },
+  {
+    slug: 'project-seven',
+    title: '[PLACEHOLDER] Project Seven', // TODO: replace
+    category: '[PLACEHOLDER] Character design', // TODO: replace
+    year: '2026',
+    description:
+      '[PLACEHOLDER] One or two lines on what the project is, who it was for and what you did.', // TODO: replace
+    cover: '/placeholders/project-3.svg', // TODO: replace → /projects/08/cover.jpg
+    status: 'live',
+    role: '[PLACEHOLDER] Design & development', // TODO: replace
+    stack: ['Next.js', 'GSAP', 'Blender'], // TODO: replace
+    intro:
+      '[PLACEHOLDER] One paragraph that sets the project up: who it was for, what the brief asked, and the constraint that shaped it.', // TODO: replace
+    blocks: [
+      {
+        heading: '[PLACEHOLDER] Concept', // TODO: replace
+        text: '[PLACEHOLDER] A short paragraph on the idea and the first decisions: what the piece had to do and what it deliberately left out.', // TODO: replace
+        media: { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/08/block-1.jpg
+      },
+      {
+        heading: '[PLACEHOLDER] Build', // TODO: replace
+        text: '[PLACEHOLDER] A short paragraph on how it was made: tools, the tricky part, and what you would do differently.', // TODO: replace
+        media: { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/08/block-2.jpg
+      },
+    ],
+    challenge:
+      '[PLACEHOLDER] What made this hard: the audience, the timeline, the technology, or the thing nobody had done before.', // TODO: replace
+    solution:
+      '[PLACEHOLDER] What you did about it, and the outcome in one or two concrete sentences.', // TODO: replace
+    gallery: [
+      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/08/gallery-1.jpg
+      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/08/gallery-2.jpg
+      { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/08/gallery-3.jpg
+    ],
+  },
+  {
+    slug: 'project-eight',
+    title: '[PLACEHOLDER] Project Eight', // TODO: replace
+    category: '[PLACEHOLDER] Cozy place', // TODO: replace
+    year: '2026',
+    description:
+      '[PLACEHOLDER] One or two lines on what the project is, who it was for and what you did.', // TODO: replace
+    cover: '/placeholders/project-4.svg', // TODO: replace → /projects/09/cover.jpg
+    video: { mp4: '/projects/09/loop.mp4' }, // TODO: add this file (short snippet)
+    videoOnPage: false,
+    status: 'live',
+    role: '[PLACEHOLDER] Design & development', // TODO: replace
+    stack: ['Next.js', 'GSAP', 'Blender'], // TODO: replace
+    intro:
+      '[PLACEHOLDER] One paragraph that sets the project up: who it was for, what the brief asked, and the constraint that shaped it.', // TODO: replace
+    blocks: [
+      {
+        heading: '[PLACEHOLDER] Concept', // TODO: replace
+        text: '[PLACEHOLDER] A short paragraph on the idea and the first decisions: what the piece had to do and what it deliberately left out.', // TODO: replace
+        media: { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/09/block-1.jpg
+      },
+      {
+        heading: '[PLACEHOLDER] Build', // TODO: replace
+        text: '[PLACEHOLDER] A short paragraph on how it was made: tools, the tricky part, and what you would do differently.', // TODO: replace
+        media: { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/09/block-2.jpg
+      },
+    ],
+    challenge:
+      '[PLACEHOLDER] What made this hard: the audience, the timeline, the technology, or the thing nobody had done before.', // TODO: replace
+    solution:
+      '[PLACEHOLDER] What you did about it, and the outcome in one or two concrete sentences.', // TODO: replace
+    gallery: [
+      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/09/gallery-1.jpg
+      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/09/gallery-2.jpg
+      { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/09/gallery-3.jpg
+    ],
+  },
+  {
+    slug: 'project-nine',
+    title: '[PLACEHOLDER] Project Nine', // TODO: replace
+    category: '[PLACEHOLDER] Logo design', // TODO: replace
+    year: '2026',
+    description:
+      '[PLACEHOLDER] One or two lines on what the project is, who it was for and what you did.', // TODO: replace
+    cover: '/placeholders/project-3.svg', // TODO: replace → /projects/10/cover.jpg
+    status: 'live',
+    role: '[PLACEHOLDER] Design & development', // TODO: replace
+    stack: ['Next.js', 'GSAP', 'Blender'], // TODO: replace
+    intro:
+      '[PLACEHOLDER] One paragraph that sets the project up: who it was for, what the brief asked, and the constraint that shaped it.', // TODO: replace
+    blocks: [
+      {
+        heading: '[PLACEHOLDER] Concept', // TODO: replace
+        text: '[PLACEHOLDER] A short paragraph on the idea and the first decisions: what the piece had to do and what it deliberately left out.', // TODO: replace
+        media: { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/10/block-1.jpg
+      },
+      {
+        heading: '[PLACEHOLDER] Build', // TODO: replace
+        text: '[PLACEHOLDER] A short paragraph on how it was made: tools, the tricky part, and what you would do differently.', // TODO: replace
+        media: { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/10/block-2.jpg
+      },
+    ],
+    challenge:
+      '[PLACEHOLDER] What made this hard: the audience, the timeline, the technology, or the thing nobody had done before.', // TODO: replace
+    solution:
+      '[PLACEHOLDER] What you did about it, and the outcome in one or two concrete sentences.', // TODO: replace
+    gallery: [
+      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/10/gallery-1.jpg
+      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/10/gallery-2.jpg
+      { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/10/gallery-3.jpg
+    ],
   },
 ];
 

@@ -4,6 +4,7 @@ import { useSyncExternalStore } from 'react';
 import { site } from '@/content/site';
 
 /** Flip to true for a 12-hour clock (1:57:23 PM) instead of 13:57:23. */
+// EDIT: true / false. The time zone is site.timezone in content/site.ts.
 const HOUR_12 = false;
 
 const timeFormat = new Intl.DateTimeFormat(HOUR_12 ? 'en-US' : 'en-GB', {

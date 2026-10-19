@@ -27,16 +27,9 @@
   outline-color: #fff;
 }
 
-.icon,
-.label {
-  grid-area: 1 / 1;
-  transition:
-    transform var(--dur-fast) var(--ease-out),
-    opacity var(--dur-fast) var(--ease-out);
-}
-
 .icon {
   display: block;
+  transition: transform var(--dur-fast) var(--ease-out);
   width: 22px;
   height: 22px;
 }
@@ -48,19 +41,4 @@
 
 .button:hover .icon {
   transform: translateY(-2px);
-}
-
-.label {
-  opacity: 0;
-  transform: translateY(6px);
-}
-
-.button[data-copied] .icon {
-  opacity: 0;
-  transform: translateY(-6px);
-}
-
-.button[data-copied] .label {
-  opacity: 1;
-  transform: none;
 }

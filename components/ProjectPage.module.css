@@ -103,6 +103,19 @@
   z-index: 1;
 }
 
+/* Full YouTube/Vimeo player in the hero: 16:9 so the video isn't cropped. */
+.cover[data-embed] {
+  aspect-ratio: 16 / 9;
+}
+
+.embed {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .page[data-status='wip'] .asset {
   filter: grayscale(1);
 }
@@ -127,6 +140,15 @@
 
 .block[data-flip] .blockText {
   order: 2;
+}
+
+/* Block without media (video-only projects): text alone, no flip. */
+.block[data-text-only] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.block[data-text-only] .blockText {
+  order: 0;
 }
 
 .blockText {

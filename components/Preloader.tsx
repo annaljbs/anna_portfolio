@@ -8,6 +8,7 @@ import { introAlreadySeen, useIntro } from './IntroProvider';
 import styles from './Preloader.module.css';
 
 /** Counter duration in seconds (§3.0). */
+// EDIT: how long the 0→100 loading counter runs on the first visit.
 const COUNT_SECONDS = 1.6;
 
 /**

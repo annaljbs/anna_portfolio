@@ -5,6 +5,7 @@
  */
 export type Theme = 'light' | 'dark';
 
+// EDIT: keep these two equal to --bg in styles/tokens.css when you change the background colours.
 export const THEME_BG: Record<Theme, string> = {
   light: '#f0f0f0',
   dark: '#0e0e0e',
