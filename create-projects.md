@@ -104,3 +104,4 @@ Written for Anna, in plain language. Sections:
 
 - Step 5: `EDIT:` comments are in `content/site.ts`, `content/projects.ts` (with a full field guide in its header), `styles/tokens.css`, `lib/theme.ts`, and the `About`, `Clock`, `Preloader` and `ProjectPage` components. `SITE-GUIDE.md` is in the root. Only comments changed, and the build passes.
 - Follow-up: every project now has its own full fields and placeholder media (no shared `placeholderDetail` any more), so each one can be edited, trimmed or extended on its own.
+- Follow-up: project 5 (QUESTIFY) shows its Figma case study as the main picture. The 30 MB SVG became 13 WebP slices (~4 MB) in `public/projects/05/case-study/`, plus `cover.webp`; the new `caseStudy` field is rendered in the hero, uncropped. Waiting on Anna's Figma re-export (white image backgrounds) to re-slice.

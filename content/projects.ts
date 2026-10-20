@@ -27,6 +27,10 @@
  *  embed?       YouTube or Vimeo link (youtube.com/watch?v=…, youtu.be/…,
  *               vimeo.com/123…). Replaces the cover at the top of the project
  *               page with a player. Search/playlist links are ignored.
+ *  caseStudy?   tall images (e.g. a Figma case study cut into slices) shown
+ *               full width and uncropped, one under another with no gap, at
+ *               the top of the project page instead of the cover. Each entry:
+ *               { src, alt, width, height } — width/height = the file's pixels.
  *  status       'live' = clickable; 'wip' = grey "In progress", no link,
  *               no video/player.
  *  role         "Role" in the project page meta row.
@@ -60,6 +64,9 @@ export type ProjectVideo = {
 export type ProjectMedia = {
   src: string;
   alt: string;
+  /** Pixel size of the file; required for caseStudy images so the page can reserve their space. */
+  width?: number;
+  height?: number;
 };
 
 export type ProjectBlock = {
@@ -83,6 +90,9 @@ export type Project = {
   videoOnPage?: boolean;
   /** YouTube or Vimeo link, played in the detail hero instead of the cover. */
   embed?: string;
+  /** Full-width, uncropped images stacked without gaps (e.g. a Figma case study);
+   *  replaces the cover at the top of the project page. */
+  caseStudy?: ProjectMedia[];
   status: ProjectStatus;
   /* Detail page (§3.9) */
   role: string;
@@ -100,7 +110,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: 'project-one',
-    title: 'YUGOSLAVIA',
+    title: '[YUGOSLAVIA]',
     category: 'FILM',
     year: '2027',
     description:
@@ -139,7 +149,7 @@ export const projects: Project[] = [
   // -----------
   {
     slug: 'project-two',
-    title: 'HEX\'N CATCH',
+    title: '[HEX\'N CATCH]',
     category: 'GAME', 
     year: '2026',
     description:
@@ -168,7 +178,7 @@ export const projects: Project[] = [
   // -----------
   {
     slug: 'project-three',
-    title: 'LIZZY', 
+    title: '[LIZZY]', 
     category: '3D',
     year: '2026',
     description:
@@ -195,7 +205,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'project-four',
-    title: 'LIVING ROOM',
+    title: '[LIVING ROOM]',
     category: 'GAME',
     year: '2026',
     description:
@@ -220,12 +230,28 @@ export const projects: Project[] = [
   // -----------
   {
     slug: 'project-five',
-    title: 'QUESTIFY - Case Study',
+    title: '[QUESTIFY]',
     category: 'UI/UX, Design', 
     year: '2026',
     description:
-      'Prototype for a new gamification app.',
-    cover: '/placeholders/project-3.svg', // TODO: replace → /projects/06/cover.jpg
+      'Prototype for a new gamification app, with a Case Study showing the design process from low-fidelity to high-fidelity.',
+    cover: '/projects/05/cover-02.webp', // top of the case study (home card + next-project card)
+    // EDIT: the case study slices (made from public/projects/05/case-study-02.svg).
+    caseStudy: [
+      { src: '/projects/05/case-study-02/01.webp', alt: 'QUESTIFY case study, part 1 of 13', width: 2880, height: 4000 },
+      { src: '/projects/05/case-study-02/02.webp', alt: 'QUESTIFY case study, part 2 of 13', width: 2880, height: 4000 },
+      { src: '/projects/05/case-study-02/03.webp', alt: 'QUESTIFY case study, part 3 of 13', width: 2880, height: 4000 },
+      { src: '/projects/05/case-study-02/04.webp', alt: 'QUESTIFY case study, part 4 of 13', width: 2880, height: 4000 },
+      { src: '/projects/05/case-study-02/05.webp', alt: 'QUESTIFY case study, part 5 of 13', width: 2880, height: 4000 },
+      { src: '/projects/05/case-study-02/06.webp', alt: 'QUESTIFY case study, part 6 of 13', width: 2880, height: 4000 },
+      { src: '/projects/05/case-study-02/07.webp', alt: 'QUESTIFY case study, part 7 of 13', width: 2880, height: 4000 },
+      { src: '/projects/05/case-study-02/08.webp', alt: 'QUESTIFY case study, part 8 of 13', width: 2880, height: 4000 },
+      { src: '/projects/05/case-study-02/09.webp', alt: 'QUESTIFY case study, part 9 of 13', width: 2880, height: 4000 },
+      { src: '/projects/05/case-study-02/10.webp', alt: 'QUESTIFY case study, part 10 of 13', width: 2880, height: 4000 },
+      { src: '/projects/05/case-study-02/11.webp', alt: 'QUESTIFY case study, part 11 of 13', width: 2880, height: 4000 },
+      { src: '/projects/05/case-study-02/12.webp', alt: 'QUESTIFY case study, part 12 of 13', width: 2880, height: 4000 },
+      { src: '/projects/05/case-study-02/13.webp', alt: 'QUESTIFY case study, part 13 of 13', width: 2880, height: 2006 },
+    ],
     status: 'live',
     role: 'UI/UX Design',
     stack: ['Figma', 'Illustrator'], 
@@ -235,39 +261,23 @@ export const projects: Project[] = [
       {
         heading: 'CONCEPT', // TODO: replace
         text: 'The concept was to create a gamification app that would make everyday tasks more engaging and fun.', // TODO: replace
-        media: { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/06/block-1.jpg
-      },
-      {
-        heading: '[PLACEHOLDER] Build', // TODO: replace
-        text: '[PLACEHOLDER] A short paragraph on how it was made: tools, the tricky part, and what you would do differently.', // TODO: replace
-        media: { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/06/block-2.jpg
       },
     ],
-    challenge:
-      '[PLACEHOLDER] What made this hard: the audience, the timeline, the technology, or the thing nobody had done before.', // TODO: replace
-    solution:
-      '[PLACEHOLDER] What you did about it, and the outcome in one or two concrete sentences.', // TODO: replace
-    gallery: [
-      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/06/gallery-1.jpg
-      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/06/gallery-2.jpg
-      { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/06/gallery-3.jpg
-    ],
+    gallery: [], // no Challenge / Solution and no gallery for this project
   },
   {
     slug: 'project-six',
-    title: '[PLACEHOLDER] Project Six', // TODO: replace
-    category: '[PLACEHOLDER] Image video', // TODO: replace
-    year: '2026',
+    title: '[KARL]', 
+    category: '2D Design', 
+    year: '2025',
     description:
       '[PLACEHOLDER] One or two lines on what the project is, who it was for and what you did.', // TODO: replace
     cover: '/placeholders/project-4.svg', // TODO: replace → /projects/07/cover.jpg
-    video: { mp4: '/projects/07/loop.mp4' }, // TODO: add this file (short snippet of the film)
-    embed: 'https://www.youtube.com/watch?v=Y-x0efG1seA', // TODO: paste the YouTube/Vimeo link of the full image video
     status: 'live',
-    role: '[PLACEHOLDER] Design & development', // TODO: replace
-    stack: ['Next.js', 'GSAP', 'Blender'], // TODO: replace
+    role: 'Artist, Designer',
+    stack: ['Illustrator', 'InDesign'],
     intro:
-      '[PLACEHOLDER] One paragraph that sets the project up: who it was for, what the brief asked, and the constraint that shaped it.', // TODO: replace
+      'A 2D design project for a fictional character named Karl.',
     blocks: [
       {
         heading: '[PLACEHOLDER] Concept', // TODO: replace
@@ -278,117 +288,74 @@ export const projects: Project[] = [
         text: '[PLACEHOLDER] A short paragraph on how it was made: tools, the tricky part, and what you would do differently.', // TODO: replace
       },
     ],
-    challenge:
-      '[PLACEHOLDER] What made this hard: the audience, the timeline, the technology, or the thing nobody had done before.', // TODO: replace
-    solution:
-      '[PLACEHOLDER] What you did about it, and the outcome in one or two concrete sentences.', // TODO: replace
-    gallery: [], // no pictures for this project
+    gallery: [
+      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/07/gallery-1.jpg
+      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/07/gallery-2.jpg
+      { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/07/gallery-3.jpg
+    ], // no pictures for this project
   },
   {
     slug: 'project-seven',
-    title: '[PLACEHOLDER] Project Seven', // TODO: replace
-    category: '[PLACEHOLDER] Character design', // TODO: replace
-    year: '2026',
+    title: '[COZY PLACE]',
+    category: '2D Design, 3D Design',
+    year: '2025',
     description:
-      '[PLACEHOLDER] One or two lines on what the project is, who it was for and what you did.', // TODO: replace
+      'Sketching and 3D Design Process for a Cozy Place.',
     cover: '/placeholders/project-3.svg', // TODO: replace → /projects/08/cover.jpg
     status: 'live',
-    role: '[PLACEHOLDER] Design & development', // TODO: replace
-    stack: ['Next.js', 'GSAP', 'Blender'], // TODO: replace
+    role: 'Artist, Designer',
+    stack: ['Blender', 'InDesign'],
     intro:
-      '[PLACEHOLDER] One paragraph that sets the project up: who it was for, what the brief asked, and the constraint that shaped it.', // TODO: replace
+      'A project to create a cozy and inviting space for me to relax and unwind.', // TODO: replace
     blocks: [
       {
-        heading: '[PLACEHOLDER] Concept', // TODO: replace
-        text: '[PLACEHOLDER] A short paragraph on the idea and the first decisions: what the piece had to do and what it deliberately left out.', // TODO: replace
+        heading: 'Concept', // TODO: replace
+        text: 'I\'ve always wanted to live or at least stay for a while in a cozy apartment with a stunning view of the New York City skyline. With nice furniture and a warm atmosphere, where I could go back to after a long day and relax.',
         media: { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/08/block-1.jpg
       },
       {
-        heading: '[PLACEHOLDER] Build', // TODO: replace
-        text: '[PLACEHOLDER] A short paragraph on how it was made: tools, the tricky part, and what you would do differently.', // TODO: replace
+        heading: 'Build', // TODO: replace
+        text: 'The Project was built using Blender. The most challenging part was the UV unwrapping and texturing.', // TODO: replace
         media: { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/08/block-2.jpg
       },
     ],
-    challenge:
-      '[PLACEHOLDER] What made this hard: the audience, the timeline, the technology, or the thing nobody had done before.', // TODO: replace
-    solution:
-      '[PLACEHOLDER] What you did about it, and the outcome in one or two concrete sentences.', // TODO: replace
     gallery: [
       { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/08/gallery-1.jpg
       { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/08/gallery-2.jpg
-      { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/08/gallery-3.jpg
+      // { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/08/gallery-3.jpg
     ],
   },
   {
     slug: 'project-eight',
-    title: '[PLACEHOLDER] Project Eight', // TODO: replace
-    category: '[PLACEHOLDER] Cozy place', // TODO: replace
-    year: '2026',
+    title: '[LOGO DESIGN]',
+    category: 'Branding, Design', 
+    year: '2025',
     description:
-      '[PLACEHOLDER] One or two lines on what the project is, who it was for and what you did.', // TODO: replace
+      'A first attempt at creating a logo for a myself.',
     cover: '/placeholders/project-4.svg', // TODO: replace → /projects/09/cover.jpg
-    video: { mp4: '/projects/09/loop.mp4' }, // TODO: add this file (short snippet)
-    videoOnPage: false,
+    // video: { mp4: '/projects/09/loop.mp4' }, // TODO: add this file (short snippet)
+    // videoOnPage: false,
     status: 'live',
-    role: '[PLACEHOLDER] Design & development', // TODO: replace
-    stack: ['Next.js', 'GSAP', 'Blender'], // TODO: replace
+    role: 'Designer',
+    stack: ['Illustrator', 'Photoshop', 'InDesign'],
     intro:
-      '[PLACEHOLDER] One paragraph that sets the project up: who it was for, what the brief asked, and the constraint that shaped it.', // TODO: replace
+      'A first attempt at creating a logo for a myself.',
     blocks: [
       {
-        heading: '[PLACEHOLDER] Concept', // TODO: replace
-        text: '[PLACEHOLDER] A short paragraph on the idea and the first decisions: what the piece had to do and what it deliberately left out.', // TODO: replace
+        heading: 'Concept',
+        text: 'I wanted to create a logo that would represent my personal brand and values.',
         media: { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/09/block-1.jpg
       },
       {
-        heading: '[PLACEHOLDER] Build', // TODO: replace
-        text: '[PLACEHOLDER] A short paragraph on how it was made: tools, the tricky part, and what you would do differently.', // TODO: replace
+        heading: 'Build',
+        text: 'The logo was designed in Illustrator and then refined in Photoshop.',
         media: { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/09/block-2.jpg
       },
     ],
-    challenge:
-      '[PLACEHOLDER] What made this hard: the audience, the timeline, the technology, or the thing nobody had done before.', // TODO: replace
-    solution:
-      '[PLACEHOLDER] What you did about it, and the outcome in one or two concrete sentences.', // TODO: replace
     gallery: [
-      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/09/gallery-1.jpg
-      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/09/gallery-2.jpg
-      { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/09/gallery-3.jpg
-    ],
-  },
-  {
-    slug: 'project-nine',
-    title: '[PLACEHOLDER] Project Nine', // TODO: replace
-    category: '[PLACEHOLDER] Logo design', // TODO: replace
-    year: '2026',
-    description:
-      '[PLACEHOLDER] One or two lines on what the project is, who it was for and what you did.', // TODO: replace
-    cover: '/placeholders/project-3.svg', // TODO: replace → /projects/10/cover.jpg
-    status: 'live',
-    role: '[PLACEHOLDER] Design & development', // TODO: replace
-    stack: ['Next.js', 'GSAP', 'Blender'], // TODO: replace
-    intro:
-      '[PLACEHOLDER] One paragraph that sets the project up: who it was for, what the brief asked, and the constraint that shaped it.', // TODO: replace
-    blocks: [
-      {
-        heading: '[PLACEHOLDER] Concept', // TODO: replace
-        text: '[PLACEHOLDER] A short paragraph on the idea and the first decisions: what the piece had to do and what it deliberately left out.', // TODO: replace
-        media: { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/10/block-1.jpg
-      },
-      {
-        heading: '[PLACEHOLDER] Build', // TODO: replace
-        text: '[PLACEHOLDER] A short paragraph on how it was made: tools, the tricky part, and what you would do differently.', // TODO: replace
-        media: { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/10/block-2.jpg
-      },
-    ],
-    challenge:
-      '[PLACEHOLDER] What made this hard: the audience, the timeline, the technology, or the thing nobody had done before.', // TODO: replace
-    solution:
-      '[PLACEHOLDER] What you did about it, and the outcome in one or two concrete sentences.', // TODO: replace
-    gallery: [
-      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/10/gallery-1.jpg
-      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/10/gallery-2.jpg
-      { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/10/gallery-3.jpg
+      // { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/09/gallery-1.jpg
+      // { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/09/gallery-2.jpg
+      // { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/09/gallery-3.jpg
     ],
   },
 ];

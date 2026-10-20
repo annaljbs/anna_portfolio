@@ -108,6 +108,25 @@
   aspect-ratio: 16 / 9;
 }
 
+/* Case study in the hero: uncropped slices stacked without gaps, so the box
+   takes the height of the images instead of 16:10. The intro scale grows
+   from the top, and no permanent GPU layer for a very tall element. */
+.cover[data-case-study] {
+  aspect-ratio: auto;
+}
+
+.cover[data-case-study] .coverInner {
+  position: relative;
+  transform-origin: top center;
+  will-change: auto;
+}
+
+.caseSlice {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .embed {
   position: absolute;
   inset: 0;

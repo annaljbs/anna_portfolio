@@ -82,7 +82,7 @@ export const site = {
     title: 'Skills',
     hints: { before: 'click me →', after: '← click me' },
     groups: [
-      { name: 'Development', items: ['React / Next.js', 'TypeScript', 'GSAP', 'CSS', 'Vue'] },
+      { name: 'Development', items: ['React / Next.js', 'GSAP', 'CSS', 'Vue'] },
       { name: 'Design', items: ['Figma', 'Illustrator', 'Photoshop'] },
       { name: '3D & Motion', items: ['Blender', 'After Effects', 'Adobe Animate'] },
       { name: 'Video', items: ['Premiere Pro', 'DaVinci Resolve'] },
@@ -96,24 +96,28 @@ export const site = {
     title: 'Q&A',
     items: [
       {
-        q: 'What kind of projects do you enjoy most?',
-        a: '[PLACEHOLDER] Two or three sentences. Keep the voice conversational; this is the one section that sounds like you talking.', // TODO: replace
+        q: 'What\'s your most unpopluar opinion?',
+        a: 'I have asthma, I can\'t do any physical activity.', // TODO: replace
       },
       {
-        q: "What do you do when you're not coding?",
-        a: '[PLACEHOLDER] Two or three sentences about life outside the editor.', // TODO: replace
+        q: "Did you think you\'d end up where you are now? Why or why not?",
+        a: 'Honestly, no. I was pretty chaotic as a teenager and didn\'t take school seriously. But I turned it around. I aced my CNC Programming certification, got my diploma, and now I\'m where I want to be.', // TODO: replace
       },
       {
-        q: 'What are you learning right now?',
-        a: '[PLACEHOLDER] Two or three sentences on current study or experiments.', // TODO: replace
+        q: 'What\'s something you\'re weirdly good at without having had formal training or much practice?',
+        a: 'Give me any ball and I\'ll figure it out, no practice required. I guess I was a multi-sport athlete in my past life.', // TODO: replace
       },
       {
-        q: "What's your favourite tool?",
-        a: '[PLACEHOLDER] Two or three sentences, and why.', // TODO: replace
+        q: "What\'s a movie you could rewatch forever and why?",
+        a: 'Late 90s or early 2000s comedies. The humor was just better back then.', // TODO: replace
       },
       {
-        q: 'How do you approach a new project?',
-        a: '[PLACEHOLDER] Two or three sentences on process: questions first, then sketches, then code.', // TODO: replace
+        q: 'What\'s the best way to start the day?',
+        a: 'With a good of perfectly extracted espresso.', // TODO: replace
+      },
+      {
+        q: 'What would be your first question after waking up from being cryogenically frozen for 100 years?',
+        a: 'Did Elon Musk clone himself? Just kidding, I\'d probably ask for Burger King.', // TODO: replace
       },
     ],
   },

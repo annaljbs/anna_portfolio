@@ -143,6 +143,16 @@ The website builds a page for every project automatically at `/work/<slug>`.
 
 Right now every `embed` holds a placeholder video, and the pictures are grey placeholder images. Every spot to replace has a `// TODO:` comment saying which file goes there.
 
+### Figma case study (tall image as the main picture)
+Project 5 (QUESTIFY) shows its Figma case study **instead of the cover** at the top of its project page, full width and uncropped. The field is `caseStudy`: a list of images shown one under another with no gaps.
+
+- **Why slices?** The Figma export (`public/projects/05/case-study-02.svg`) is 1440 × 25,003 px and 30 MB. That is too heavy and too tall for phones. It was turned into 13 WebP slices (`public/projects/05/case-study-02/01.webp … 13.webp`, about 4 MB in total) plus `cover-02.webp` (the top of the case study, used for the home card).
+- **Each entry** needs the file's real pixel size: `{ src: '/projects/05/case-study-02/01.webp', alt: '…', width: 2880, height: 4000 }`. That way the page keeps the right space before each slice loads.
+- **Updating the case study:** export the case study from Figma again (e.g. as `case-study-03.svg`) and ask Claude to "re-slice the case study". Slices are rendered in Chrome at 2× (2880 px wide, 4000 px tall per slice). Or export the frames from Figma yourself as PNG/JPG (Export → PNG, 2x) and list them in `caseStudy` with their sizes.
+- **Before exporting:** remove white backgrounds from scribble or bracket images in Figma, or flatten those layers. Blend modes like "Multiply" can get lost in an SVG export, and the white boxes then show up.
+- **New version = new folder name.** Browsers keep images they've already shown. When the case study changes, put the new slices in a new folder (`case-study-03/`, with the same file names inside) and update the paths. That way every visitor gets the new version.
+- **Any project** can use `caseStudy`. It takes priority over `embed` and the cover at the top of the page.
+
 ### Editing one project
 Every project has its **own full set of fields**: role, stack, intro, sections (`blocks`), challenge, solution and gallery, each with its own placeholder text and placeholder pictures. Changing one project never affects another.
 

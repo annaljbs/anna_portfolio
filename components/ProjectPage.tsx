@@ -47,6 +47,7 @@ export default function ProjectPage({ project, index, next }: Props) {
   const shouldPlay = useRef(false);
   const wip = project.status === 'wip';
   const embed = wip ? null : toEmbedUrl(project.embed);
+  const caseStudy = project.caseStudy?.length ? project.caseStudy : null;
 
   useEffect(() => {
     const el = root.current;
@@ -182,9 +183,29 @@ export default function ProjectPage({ project, index, next }: Props) {
             </div>
           </dl>
 
-          <div className={styles.cover} data-hero-cover data-hero-hide data-embed={embed ? '' : undefined}>
+          <div
+            className={styles.cover}
+            data-hero-cover
+            data-hero-hide
+            data-embed={embed ? '' : undefined}
+            data-case-study={caseStudy ? '' : undefined}
+          >
             <div className={styles.coverInner} data-hero-cover-inner>
-              {embed ? (
+              {caseStudy ? (
+                caseStudy.map((slice, i) => (
+                  <Image
+                    key={slice.src}
+                    src={slice.src}
+                    alt={slice.alt}
+                    width={slice.width ?? 0}
+                    height={slice.height ?? 0}
+                    priority={i === 0}
+                    sizes="(max-width: 768px) 100vw, 95vw"
+                    className={styles.caseSlice}
+                    unoptimized={slice.src.endsWith('.svg')}
+                  />
+                ))
+              ) : embed ? (
                 <ProjectEmbed src={embed} title={project.title} className={styles.embed} />
               ) : (
                 <>
