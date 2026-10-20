@@ -101,19 +101,19 @@ export const site = {
       },
       {
         q: "Did you think you\'d end up where you are now? Why or why not?",
-        a: 'Honestly, no. I was pretty chaotic as a teenager and didn\'t take school seriously. But I turned it around. I aced my CNC Programming certification, got my diploma, and now I\'m where I want to be.', // TODO: replace
+        a: 'Honestly, no. I was pretty chaotic as a teenager and didn\'t take school seriously. But I turned it around. I aced my CNC Programming certification, got my diploma, and now I\'m where I want to be.', 
       },
       {
         q: 'What\'s something you\'re weirdly good at without having had formal training or much practice?',
-        a: 'Give me any ball and I\'ll figure it out, no practice required. I guess I was a multi-sport athlete in my past life.', // TODO: replace
+        a: 'Give me any ball and I\'ll figure it out, no practice required. I guess I was a multi-sport athlete in my past life.',
       },
       {
         q: "What\'s a movie you could rewatch forever and why?",
-        a: 'Late 90s or early 2000s comedies. The humor was just better back then.', // TODO: replace
+        a: 'Late 90s or early 2000s comedies. The humor was just way better back then.',
       },
       {
         q: 'What\'s the best way to start the day?',
-        a: 'With a good of perfectly extracted espresso.', // TODO: replace
+        a: 'With a cup of perfectly extracted espresso.',
       },
       {
         q: 'What would be your first question after waking up from being cryogenically frozen for 100 years?',
