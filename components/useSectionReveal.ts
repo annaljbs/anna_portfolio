@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, type RefObject } from 'react';
-import { gsap, DUR, EASE, MOTION_OK } from '@/lib/gsap';
+import { gsap, DUR, EASE, MOTION_OK, PLAY_ONCE } from '@/lib/gsap';
 
 /**
  * Shared scroll reveals for a section (§3.6, §3.7):
@@ -26,7 +26,7 @@ export function useSectionReveal(ref: RefObject<HTMLElement | null>) {
           duration: DUR.base,
           ease: EASE.out,
           stagger: 0.08,
-          scrollTrigger: { trigger: el, start: 'top 80%', once: true },
+          scrollTrigger: { trigger: el, start: 'top 80%', ...PLAY_ONCE },
         });
       }
       q<HTMLElement>('[data-rule]').forEach((rule) => {
@@ -35,7 +35,7 @@ export function useSectionReveal(ref: RefObject<HTMLElement | null>) {
           transformOrigin: 'left center',
           duration: DUR.slow,
           ease: EASE.out,
-          scrollTrigger: { trigger: rule, start: 'top 92%', once: true },
+          scrollTrigger: { trigger: rule, start: 'top 92%', ...PLAY_ONCE },
         });
       });
     });

@@ -123,6 +123,7 @@ The website builds a page for every project automatically at `/work/<slug>`.
 | **Cover picture** | `cover` (always needed) | Home row, top of the project page, "Next project" card |
 | **Short loop** (muted, autoplay) | `video: { mp4: '/projects/03/loop.mp4' }` | Over the cover on the home row and at the top of the project page |
 | Loop on the home row only | add `videoOnPage: false` | Project page shows the still cover instead |
+| Loop only while hovered | add `videoPlay: 'hover'` | Home row shows the first frame (use it as `cover`); the loop plays while the mouse is over the picture and rewinds when it leaves |
 | **Full video** (YouTube/Vimeo) | `embed: 'https://www.youtube.com/watch?v=…'` | Replaces the cover at the top of the project page with a player |
 
 `embed` accepts these links: `youtube.com/watch?v=…`, `youtu.be/…`, YouTube Shorts and `vimeo.com/123456789`. A search-results or playlist link is ignored and the cover shows instead. Delete the `embed` line for projects without a full video.
@@ -152,6 +153,18 @@ Project 5 (QUESTIFY) shows its Figma case study **instead of the cover** at the 
 - **Before exporting:** remove white backgrounds from scribble or bracket images in Figma, or flatten those layers. Blend modes like "Multiply" can get lost in an SVG export, and the white boxes then show up.
 - **New version = new folder name.** Browsers keep images they've already shown. When the case study changes, put the new slices in a new folder (`case-study-03/`, with the same file names inside) and update the paths. That way every visitor gets the new version.
 - **Any project** can use `caseStudy`. It takes priority over `embed` and the cover at the top of the page.
+
+### Media rows (side-by-side images)
+`rows` puts rows of images right after Challenge / Solution. Project 2 uses it for its three game screens and four UI elements:
+```ts
+rows: [
+  { layout: 'screens', media: [ { src: '/projects/02/Username.svg', alt: '…', width: 1440, height: 1024 }, … ] },
+  { layout: 'elements', media: [ { src: '/projects/02/health.svg', alt: '…', width: 576, height: 135 }, … ] },
+],
+```
+- `'screens'`: equal-width columns with a small gap. On phones they stack.
+- `'elements'`: small pieces such as buttons, icons and bars, all at one height, centred on a subtle panel. On phones they wrap onto a second line if needed.
+- `width` / `height` are the file's own size. They keep each picture's shape correct. For an SVG, read them from the `viewBox` at the top of the file.
 
 ### Editing one project
 Every project has its **own full set of fields**: role, stack, intro, sections (`blocks`), challenge, solution and gallery, each with its own placeholder text and placeholder pictures. Changing one project never affects another.
@@ -289,6 +302,7 @@ Each `.tsx` file has a matching `.module.css` file with its styles. The texts co
 | `QA.tsx` | The question/answer accordion |
 | `Footer.tsx` | Contact section: big "Get in touch", email (click copies it), clock, socials |
 | `MailButton.tsx` | Round mail button bottom-right (opens a new email) |
+| `BackToTop.tsx` | Round arrow button above the mail button: appears after the About section, scrolls back to the top. Its arrow is `public/images/arrow_drawn.svg` (swap the file to change it); `SCROLL_SECONDS` sets the scroll speed (`EDIT:`) |
 | `ProjectPage.tsx` | The whole project page: title, meta row, cover/player, sections, gallery, next project |
 | `ProjectEmbed.tsx` | The YouTube/Vimeo player box |
 | `PageFrame.tsx` | The thin rounded frame around the window |

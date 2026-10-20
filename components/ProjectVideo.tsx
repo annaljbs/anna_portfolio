@@ -8,6 +8,9 @@ type Props = {
   video: VideoSources;
   poster: string;
   className?: string;
+  /** Play only while the surrounding [data-media] box is hovered or focused;
+   *  otherwise show the first frame. Leaving rewinds to the start. */
+  hover?: boolean;
 };
 
 /**
@@ -16,7 +19,7 @@ type Props = {
  * unmounts itself if no source can load so the poster image underneath shows.
  * Reduced motion: never plays; the poster stays.
  */
-export default function ProjectVideo({ video, poster, className }: Props) {
+export default function ProjectVideo({ video, poster, className, hover = false }: Props) {
   const ref = useRef<HTMLVideoElement>(null);
   const [failed, setFailed] = useState(false);
 
@@ -25,6 +28,28 @@ export default function ProjectVideo({ video, poster, className }: Props) {
     if (!el || prefersReducedMotion()) return;
     // The property, not the attribute, is what autoplay policies check.
     el.muted = true;
+
+    if (hover) {
+      const target = el.closest<HTMLElement>('[data-media]') ?? el.parentElement;
+      if (!target) return;
+      const start = () => el.play().catch(() => {});
+      const stop = () => {
+        el.pause();
+        el.currentTime = 0;
+      };
+      target.addEventListener('pointerenter', start);
+      target.addEventListener('pointerleave', stop);
+      target.addEventListener('focusin', start);
+      target.addEventListener('focusout', stop);
+      return () => {
+        target.removeEventListener('pointerenter', start);
+        target.removeEventListener('pointerleave', stop);
+        target.removeEventListener('focusin', start);
+        target.removeEventListener('focusout', stop);
+        el.pause();
+      };
+    }
+
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -40,7 +65,7 @@ export default function ProjectVideo({ video, poster, className }: Props) {
       io.disconnect();
       el.pause();
     };
-  }, []);
+  }, [hover]);
 
   if (failed) return null;
 
@@ -59,7 +84,7 @@ export default function ProjectVideo({ video, poster, className }: Props) {
       muted
       loop
       playsInline
-      preload="metadata"
+      preload={hover ? 'auto' : 'metadata'}
       poster={poster}
       aria-hidden="true"
       tabIndex={-1}

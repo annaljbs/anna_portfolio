@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { site } from '@/content/site';
-import { gsap, ScrollTrigger, SplitText, DUR, EASE, STAGGER, MOTION_OK } from '@/lib/gsap';
+import { gsap, ScrollTrigger, SplitText, DUR, EASE, STAGGER, MOTION_OK, PLAY_ONCE } from '@/lib/gsap';
 import Clock from './Clock';
 import styles from './Footer.module.css';
 
@@ -56,10 +56,10 @@ export default function Footer() {
               ? {
                   trigger: curtain,
                   start: () => `bottom ${footerTop() + target.offsetTop + target.offsetHeight / 2}px`,
-                  once: true,
+                  ...PLAY_ONCE,
                   invalidateOnRefresh: true,
                 }
-              : { trigger: target, start: 'top 85%', once: true };
+              : { trigger: target, start: 'top 85%', ...PLAY_ONCE };
 
           q<HTMLElement>('[data-reveal]').forEach((target) => {
             gsap.from(target, { y: 30, autoAlpha: 0, duration: DUR.base, ease: EASE.out, scrollTrigger: trigger(target) });

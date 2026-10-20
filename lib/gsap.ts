@@ -34,6 +34,15 @@ export const DUR = {
 /** Sibling stagger in seconds — identical to --stagger. */
 export const STAGGER = 0.07;
 
+/**
+ * Scroll reveals that play once and never reverse. Use this instead of
+ * `once: true`: `once` kills the trigger the moment it fires, and when many
+ * triggers are created at the same time (e.g. returning to the home page with
+ * browser back) a trigger can fire during another's setup, shrink
+ * ScrollTrigger's list mid-loop and crash it ("reading 'end'").
+ */
+export const PLAY_ONCE = { toggleActions: 'play none none none' } as const;
+
 let registered = false;
 
 if (typeof window !== 'undefined' && !registered) {

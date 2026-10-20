@@ -21,7 +21,7 @@ export const site = {
   name: 'Anna Ljubas', 
   // EDIT: short line under the hero name and the Google/browser description. '' hides it.
   tagline:
-    '', // TODO: replace
+    '29 y/o Media Technology and Design student from Austria', // TODO: replace
   // EDIT: shown in the hero meta row next to the date and live clock.
   location: 'Gunskirchen, Austria', 
   // EDIT: time zone of the live clocks (hero + footer), e.g. 'Europe/Berlin'.

@@ -21,9 +21,13 @@
  *  description  one or two lines under the title on the home page.
  *  cover        picture for the home row, the project page top and the
  *               "Next project" card. Always needed.
+ *  pageCover?   picture for the top of the project page only (the home row
+ *               keeps `cover`). Leave out to use `cover` on both.
  *  video?       { mp4: '…' } short muted loop over the cover (home row and
  *               project page top). Optional { mp4, webm } for a smaller webm.
  *  videoOnPage? false = loop only on the home row; project page shows the cover.
+ *  videoPlay?   'hover' = shows the first frame (cover) and plays the loop only
+ *               while the mouse is over it (home row + project page); default autoplays.
  *  embed?       YouTube or Vimeo link (youtube.com/watch?v=…, youtu.be/…,
  *               vimeo.com/123…). Replaces the cover at the top of the project
  *               page with a player. Search/playlist links are ignored.
@@ -40,6 +44,10 @@
  *               { heading: '…', text: '…', media: { src: '…', alt: '…' } }
  *               Leave out `media` for a text-only section.
  *  challenge? / solution?   the two-column text block; leave both out to hide it.
+ *  rows?        horizontal rows of media right after Challenge / Solution:
+ *               { layout: 'screens', media: [ … ] } = equal-width columns,
+ *               { layout: 'elements', media: [ … ] } = small UI pieces at one
+ *               height on a panel. Each media item: { src, alt, width, height }.
  *  gallery      up to 4 pictures at the bottom ([] hides the gallery).
  *
  * Every project has its own full set of fields and placeholder media, so
@@ -69,6 +77,18 @@ export type ProjectMedia = {
   height?: number;
 };
 
+/**
+ * A horizontal row of media under Challenge / Solution.
+ *  'screens' — equal-width columns (e.g. UI screens, same aspect ratio).
+ *  'elements' — small pieces (buttons, icons, bars) at one shared height,
+ *               centred on a subtle panel.
+ * Every item needs width + height (the file's size) so it keeps its shape.
+ */
+export type ProjectRow = {
+  layout: 'screens' | 'elements';
+  media: ProjectMedia[];
+};
+
 export type ProjectBlock = {
   heading: string;
   text: string;
@@ -84,10 +104,14 @@ export type Project = {
   description: string;
   /** Poster / static cover (home row and detail hero). */
   cover: string;
+  /** Different picture for the top of the project page only; defaults to `cover`. */
+  pageCover?: string;
   /** Autoplaying muted preview; omit for a static cover. */
   video?: ProjectVideo;
   /** false: the preview loops on the home card only; the detail hero stays static. */
   videoOnPage?: boolean;
+  /** 'hover': the home card shows the first frame and loops the video only while hovered. */
+  videoPlay?: 'auto' | 'hover';
   /** YouTube or Vimeo link, played in the detail hero instead of the cover. */
   embed?: string;
   /** Full-width, uncropped images stacked without gaps (e.g. a Figma case study);
@@ -100,6 +124,8 @@ export type Project = {
   /** Omit to hide the intro paragraph. */
   intro?: string;
   blocks: ProjectBlock[];
+  /** Rows of media shown right after Challenge / Solution; omit for none. */
+  rows?: ProjectRow[];
   /** Omit both to hide the Challenge / Solution block. */
   challenge?: string;
   solution?: string;
@@ -154,7 +180,7 @@ export const projects: Project[] = [
     year: '2026',
     description:
       'Hide, drink, and survive. In this 4-player asymmetrical party game, three undercover witches must chug their way to victory while dodging the ultimate buzzkill: a Witch Hunter tasked with catching them before they black out.', // TODO: replace
-    cover: '/placeholders/project-3.svg', // TODO: replace → /projects/02/cover.jpg
+    cover: '/projects/02/cover.webp', // made from Plakat3.png: border trimmed, 2880 × 1800 like the other covers
     embed: 'https://youtu.be/5cZa_0SY_P8',
     status: 'live',
     role: 'UI/UX Designer, Game Designer, Editor, Colorist',
@@ -167,11 +193,29 @@ export const projects: Project[] = [
       'The challenge was to create a user-friendly interface that would enhance the gameplay experience.',
     solution:
       'I designed a clean and intuitive interface that made it easy for players to navigate the game and access the information they needed.',
-    gallery: [
-      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/02/gallery-1.jpg
-      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/02/gallery-2.jpg
-      // { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/02/gallery-3.jpg
+    // EDIT: media rows under Challenge / Solution. Add, remove or reorder items;
+    // width/height = the file's own size (keeps the proportions right).
+    rows: [
+      {
+        layout: 'screens',
+        media: [
+          { src: '/projects/02/Username.svg', alt: 'Create Username screen', width: 1440, height: 1024 },
+          { src: '/projects/02/Join.svg', alt: 'Create or Join Room screen', width: 1440, height: 1024 },
+          { src: '/projects/02/Waiting.svg', alt: 'Waiting for other players screen', width: 1440, height: 1024 },
+        ],
+      },
+      {
+        layout: 'elements',
+        media: [
+          { src: '/projects/02/credits-button.svg', alt: 'Credits button', width: 289, height: 135 },
+          { src: '/projects/02/grappling-hook.svg', alt: 'Grappling hook ability icon', width: 226, height: 200 },
+          { src: '/projects/02/PickUp.svg', alt: 'Pick-up (drink) icon', width: 226, height: 200 },
+          { src: '/projects/02/health.svg', alt: 'Health bar', width: 576, height: 135 },
+        ],
+      },
     ],
+    gallery: [
+      ],
   },
   // -----------
   // PROJECT THREE
@@ -210,7 +254,12 @@ export const projects: Project[] = [
     year: '2026',
     description:
       'A game about a living room. Players explore the space and interact with objects.',
-    cover: '/placeholders/project-3.svg', // TODO: replace → /projects/04/cover.jpg
+    cover: '/projects/04/hover-cover.webp', // first frame of the hover clip
+    // Home card: first frame, plays in a loop only while hovered. Made from the
+    // living-room recording: from 3 s to the end, editor title bar + cursor cropped.
+    // The project page still shows the YouTube player (embed wins over video there).
+    video: { mp4: '/projects/04/hover.mp4', webm: '/projects/04/hover.webm' },
+    videoPlay: 'hover',
     embed: 'https://youtu.be/ZoMl3_uF2AQ',
     status: 'live',
     role: 'Coding with Blueprints, Trailer Production',
@@ -271,28 +320,34 @@ export const projects: Project[] = [
     category: '2D Design', 
     year: '2025',
     description:
-      '[PLACEHOLDER] One or two lines on what the project is, who it was for and what you did.', // TODO: replace
-    cover: '/placeholders/project-4.svg', // TODO: replace → /projects/07/cover.jpg
+      '[PLACEHOLDER] One or two lines on what the project is, who it was for and what you did.', 
+    cover: '/projects/06/character-01.webp', 
     status: 'live',
     role: 'Artist, Designer',
     stack: ['Illustrator', 'InDesign'],
     intro:
       'A 2D design project for a fictional character named Karl.',
     blocks: [
+    ],
+    rows: [
       {
-        heading: '[PLACEHOLDER] Concept', // TODO: replace
-        text: '[PLACEHOLDER] A short paragraph on the idea and the first decisions: what the piece had to do and what it deliberately left out.', // TODO: replace
+        layout: 'screens',
+        media: [
+          { src: '/projects/06/character-03.webp', alt: 'Character Sheet 03', width: 1440, height: 1024 },
+          { src: '/projects/06/character-04.webp', alt: 'Character Sheet 04', width: 1440, height: 1024 },
+          { src: '/projects/06/character-05.webp', alt: 'Character Sheet 05', width: 1440, height: 1024 },
+        ],
       },
       {
-        heading: '[PLACEHOLDER] Build', // TODO: replace
-        text: '[PLACEHOLDER] A short paragraph on how it was made: tools, the tricky part, and what you would do differently.', // TODO: replace
+        layout: 'screens',
+        media: [
+          { src: '/projects/06/character-02.webp', alt: 'Character Sheet 01', width: 2880, height: 4000 },
+        ],
       },
+
     ],
     gallery: [
-      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/07/gallery-1.jpg
-      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/07/gallery-2.jpg
-      { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/07/gallery-3.jpg
-    ], // no pictures for this project
+    ],
   },
   {
     slug: 'project-seven',
@@ -301,28 +356,52 @@ export const projects: Project[] = [
     year: '2025',
     description:
       'Sketching and 3D Design Process for a Cozy Place.',
-    cover: '/placeholders/project-3.svg', // TODO: replace → /projects/08/cover.jpg
+    cover: '/projects/07/roomtour-cover.webp', // first frame of the room tour (was cozysunset.webp)
+    // Room tour: upscaled from roomtour.mp4 (1920 → 2560 px, deblocked + lightly sharpened).
+    // Shows the first frame; plays in a loop only while hovered (home card + project page).
+    video: { mp4: '/projects/07/roomtour-hover.mp4', webm: '/projects/07/roomtour-hover.webm' },
+    videoPlay: 'hover',
+    // Project page: this still picture at the top instead of the looping video.
+    pageCover: '/projects/07/cozynight.webp',
+    videoOnPage: false,
     status: 'live',
     role: 'Artist, Designer',
     stack: ['Blender', 'InDesign'],
     intro:
-      'A project to create a cozy and inviting space for me to relax and unwind.', // TODO: replace
+      'A project to create a cozy and inviting space for me to relax and unwind.',
     blocks: [
       {
-        heading: 'Concept', // TODO: replace
+        heading: 'Concept',
         text: 'I\'ve always wanted to live or at least stay for a while in a cozy apartment with a stunning view of the New York City skyline. With nice furniture and a warm atmosphere, where I could go back to after a long day and relax.',
-        media: { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/08/block-1.jpg
+        media: { src: '/projects/07/sketch.webp', alt: '' }, // TODO: replace → /projects/08/block-1.jpg
       },
       {
         heading: 'Build', // TODO: replace
-        text: 'The Project was built using Blender. The most challenging part was the UV unwrapping and texturing.', // TODO: replace
-        media: { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/08/block-2.jpg
+        text: 'The Project was built using Blender. The most challenging part was the UV unwrapping and texturing.', 
+        media: { src: '/projects/07/wireframes.webp', alt: '' }, // TODO: replace → /projects/08/block-2.jpg
       },
     ],
     gallery: [
-      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/08/gallery-1.jpg
-      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/08/gallery-2.jpg
-      // { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/08/gallery-3.jpg
+      { src: '/projects/07/cozynight.webp', alt: '' }, // TODO: replace → /projects/08/gallery-1.jpg
+    ],
+    rows: [
+      {
+        layout: 'screens',
+        media: [
+          { src: '/projects/07/asset1.webp', alt: 'Asset 1',  },
+          { src: '/projects/07/asset2.webp', alt: 'Asset 2', },
+          { src: '/projects/07/asset3.webp', alt: 'Asset 3', },
+        ],
+      },
+      {
+        layout: 'screens',
+        media: [
+          { src: '/projects/07/asset4.webp', alt: 'Asset 4', },
+          { src: '/projects/07/asset5.webp', alt: 'Asset 5', },
+          { src: '/projects/07/asset6.webp', alt: 'Asset 6', },
+          { src: '/projects/07/asset7.webp', alt: 'Asset 7', },
+        ],
+      },
     ],
   },
   {
@@ -332,30 +411,35 @@ export const projects: Project[] = [
     year: '2025',
     description:
       'A first attempt at creating a logo for a myself.',
-    cover: '/placeholders/project-4.svg', // TODO: replace → /projects/09/cover.jpg
+    cover: '/projects/08/cover.png', // TODO: replace → /projects/09/cover.jpg
     // video: { mp4: '/projects/09/loop.mp4' }, // TODO: add this file (short snippet)
     // videoOnPage: false,
+    // EDIT: the brand guidelines, one image per PDF page (made from public/projects/08/brand guidlines.pdf).
+    // Shown full width at the top of the project page, like the QUESTIFY case study.
+    caseStudy: [
+      { src: '/projects/08/brand-guidelines/01.webp', alt: 'Brand guidelines, page 1 of 14', width: 2880, height: 2036 },
+      { src: '/projects/08/brand-guidelines/02.webp', alt: 'Brand guidelines, page 2 of 14', width: 2880, height: 2036 },
+      { src: '/projects/08/brand-guidelines/03.webp', alt: 'Brand guidelines, page 3 of 14', width: 2880, height: 2036 },
+      { src: '/projects/08/brand-guidelines/04.webp', alt: 'Brand guidelines, page 4 of 14', width: 2880, height: 2036 },
+      { src: '/projects/08/brand-guidelines/05.webp', alt: 'Brand guidelines, page 5 of 14', width: 2880, height: 2036 },
+      { src: '/projects/08/brand-guidelines/06.webp', alt: 'Brand guidelines, page 6 of 14', width: 2880, height: 2036 },
+      { src: '/projects/08/brand-guidelines/07.webp', alt: 'Brand guidelines, page 7 of 14', width: 2880, height: 2036 },
+      { src: '/projects/08/brand-guidelines/08.webp', alt: 'Brand guidelines, page 8 of 14', width: 2880, height: 2036 },
+      { src: '/projects/08/brand-guidelines/09.webp', alt: 'Brand guidelines, page 9 of 14', width: 2880, height: 2036 },
+      { src: '/projects/08/brand-guidelines/10.webp', alt: 'Brand guidelines, page 10 of 14', width: 2880, height: 2036 },
+      { src: '/projects/08/brand-guidelines/11.webp', alt: 'Brand guidelines, page 11 of 14', width: 2880, height: 2036 },
+      { src: '/projects/08/brand-guidelines/12.webp', alt: 'Brand guidelines, page 12 of 14', width: 2880, height: 2036 },
+      { src: '/projects/08/brand-guidelines/13.webp', alt: 'Brand guidelines, page 13 of 14', width: 2880, height: 2036 },
+      { src: '/projects/08/brand-guidelines/14.webp', alt: 'Brand guidelines, page 14 of 14', width: 2880, height: 2036 },
+    ],
     status: 'live',
     role: 'Designer',
     stack: ['Illustrator', 'Photoshop', 'InDesign'],
     intro:
       'A first attempt at creating a logo for a myself.',
     blocks: [
-      {
-        heading: 'Concept',
-        text: 'I wanted to create a logo that would represent my personal brand and values.',
-        media: { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/09/block-1.jpg
-      },
-      {
-        heading: 'Build',
-        text: 'The logo was designed in Illustrator and then refined in Photoshop.',
-        media: { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/09/block-2.jpg
-      },
     ],
     gallery: [
-      // { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/09/gallery-1.jpg
-      // { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/09/gallery-2.jpg
-      // { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/09/gallery-3.jpg
     ],
   },
 ];

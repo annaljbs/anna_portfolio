@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { site } from '@/content/site';
-import { gsap, ScrollTrigger, SplitText, DUR, EASE, MOTION_OK } from '@/lib/gsap';
+import { gsap, ScrollTrigger, SplitText, DUR, EASE, MOTION_OK, PLAY_ONCE } from '@/lib/gsap';
 import Marquee from './Marquee';
 import styles from './About.module.css';
 
@@ -35,7 +35,7 @@ export default function About() {
             duration: DUR.base,
             ease: EASE.out,
             stagger: 0.08,
-            scrollTrigger: { trigger: el, start: 'top 80%', once: true },
+            scrollTrigger: { trigger: el, start: 'top 80%', ...PLAY_ONCE },
           });
 
           const paragraphs = q<HTMLElement>('[data-lines]');
@@ -47,7 +47,7 @@ export default function About() {
               duration: DUR.base,
               ease: EASE.out,
               stagger: LINE_STAGGER,
-              scrollTrigger: { trigger: paragraphs[0], start: 'top 80%', once: true },
+              scrollTrigger: { trigger: paragraphs[0], start: 'top 80%', ...PLAY_ONCE },
               onComplete: () => {
                 splits.forEach((s) => s.revert());
                 ScrollTrigger.refresh();

@@ -1,0 +1,57 @@
+/* Same look as the mail button (white + difference blending), stacked
+   directly above it. Hidden: faded out, nudged down and not clickable. */
+.button {
+  position: fixed;
+  right: calc(var(--frame-inset) + 1.5rem);
+  bottom: calc(var(--frame-inset) + 1.5rem + var(--mail-size) + 0.75rem);
+  z-index: var(--z-mail);
+  display: grid;
+  place-items: center;
+  width: var(--mail-size);
+  height: var(--mail-size);
+  border-radius: 50%;
+  background: #fff;
+  color: #000;
+  mix-blend-mode: difference;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    visibility 0s linear var(--dur-fast);
+}
+
+.button[data-visible] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.button[data-visible]:hover,
+.button[data-visible]:focus-visible {
+  transform: scale(1.08);
+}
+
+.button:focus-visible {
+  outline-color: #fff;
+}
+
+/* The drawn arrow as a mask, so it takes the button's text colour. */
+.arrow {
+  display: block;
+  width: 24px;
+  height: 16px;
+  background: currentColor;
+  mask: url('/images/arrow_drawn.svg') center / contain no-repeat;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.button:hover .arrow {
+  transform: translateY(-2px);
+}

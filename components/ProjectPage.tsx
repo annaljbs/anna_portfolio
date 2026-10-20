@@ -14,6 +14,7 @@ import {
   STAGGER,
   MOTION_OK,
   MOTION_REDUCED,
+  PLAY_ONCE,
 } from '@/lib/gsap';
 import { toEmbedUrl } from '@/lib/embed';
 import { useIntro } from './IntroProvider';
@@ -101,12 +102,12 @@ export default function ProjectPage({ project, index, next }: Props) {
               autoAlpha: 0,
               duration: DUR.base,
               ease: EASE.out,
-              scrollTrigger: { trigger: target, start: 'top 85%', once: true },
+              scrollTrigger: { trigger: target, start: 'top 85%', ...PLAY_ONCE },
             });
           });
           q<HTMLElement>('[data-media]').forEach((box) => {
             gsap
-              .timeline({ scrollTrigger: { trigger: box, start: 'top 80%', once: true } })
+              .timeline({ scrollTrigger: { trigger: box, start: 'top 80%', ...PLAY_ONCE } })
               .fromTo(box, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: DUR.slow, ease: EASE.out }, 0)
               .fromTo(
                 box.querySelector('[data-media-inner]'),
@@ -210,19 +211,20 @@ export default function ProjectPage({ project, index, next }: Props) {
               ) : (
                 <>
                   <Image
-                    src={project.cover}
+                    src={project.pageCover ?? project.cover}
                     alt=""
                     fill
                     priority
                     sizes="100vw"
                     className={styles.asset}
-                    unoptimized={project.cover.endsWith('.svg')}
+                    unoptimized={(project.pageCover ?? project.cover).endsWith('.svg')}
                   />
                   {!wip && project.video && project.videoOnPage !== false && (
                     <ProjectVideo
                       video={project.video}
                       poster={project.cover}
                       className={`${styles.asset} ${styles.video}`}
+                      hover={project.videoPlay === 'hover'}
                     />
                   )}
                 </>
@@ -273,6 +275,38 @@ export default function ProjectPage({ project, index, next }: Props) {
               </div>
             )}
           </section>
+        )}
+
+        {project.rows && project.rows.length > 0 && (
+          <div className={styles.rows}>
+            {project.rows.map((row, r) => (
+              <section
+                key={r}
+                className={styles.row}
+                data-layout={row.layout}
+                data-reveal
+                aria-label={row.layout === 'screens' ? 'Screens' : 'Interface elements'}
+              >
+                {row.media.map((media) => (
+                  <Image
+                    key={media.src}
+                    src={media.src}
+                    alt={media.alt}
+                    width={media.width ?? 0}
+                    height={media.height ?? 0}
+                    sizes={row.layout === 'screens' ? '(max-width: 600px) 100vw, 33vw' : '25vw'}
+                    className={styles.rowItem}
+                    style={
+                      row.layout === 'elements' && media.width && media.height
+                        ? { aspectRatio: `${media.width} / ${media.height}` }
+                        : undefined
+                    }
+                    unoptimized={media.src.endsWith('.svg')}
+                  />
+                ))}
+              </section>
+            ))}
+          </div>
         )}
 
         {project.gallery.length > 0 && (

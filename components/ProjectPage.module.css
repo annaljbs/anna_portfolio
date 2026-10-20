@@ -205,6 +205,45 @@
   color: var(--ink);
 }
 
+/* Media rows under Challenge / Solution (content/projects.ts → rows). */
+.rows {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-bottom: clamp(4rem, 8vw, 8rem);
+}
+
+/* Screens: equal columns, small gap, same corners as the media boxes. */
+.row[data-layout='screens'] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: clamp(0.5rem, 1.2vw, 1rem);
+}
+
+.row[data-layout='screens'] .rowItem {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* Elements: one shared height, centred and evenly spaced on a panel. */
+.row[data-layout='elements'] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.25rem, 4vw, 4rem);
+  padding: clamp(2rem, 5vw, 4.5rem) clamp(1rem, 4vw, 3rem);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+.row[data-layout='elements'] .rowItem {
+  display: block;
+  width: auto;
+  height: clamp(48px, 8vw, 120px);
+}
+
 /* 2–4 images; every third spans the full width. */
 .gallery {
   display: grid;
@@ -271,5 +310,12 @@
 
   .gallery > :nth-child(3n) {
     grid-column: auto;
+  }
+}
+
+/* Phones: screens stack so they stay readable. */
+@media (max-width: 600px) {
+  .row[data-layout='screens'] {
+    grid-template-columns: 1fr;
   }
 }

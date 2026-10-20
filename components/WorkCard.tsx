@@ -32,7 +32,12 @@ export default function WorkCard({ project, index }: Props) {
         unoptimized={project.cover.endsWith('.svg')}
       />
       {live && project.video && (
-        <ProjectVideo video={project.video} poster={project.cover} className={`${styles.asset} ${styles.video}`} />
+        <ProjectVideo
+          video={project.video}
+          poster={project.cover}
+          className={`${styles.asset} ${styles.video}`}
+          hover={project.videoPlay === 'hover'}
+        />
       )}
     </div>
   );

@@ -6,6 +6,7 @@ import Skills from '@/components/Skills';
 import QA from '@/components/QA';
 import Footer from '@/components/Footer';
 import ThemeController from '@/components/ThemeController';
+import BackToTop from '@/components/BackToTop';
 import styles from './page.module.css';
 
 /**
@@ -37,6 +38,7 @@ export default function Home() {
         <div id="contact" className={styles.anchor} aria-hidden="true" />
         <Footer />
       </div>
+      <BackToTop />
     </>
   );
 }

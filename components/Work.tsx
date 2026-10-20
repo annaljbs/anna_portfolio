@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { site } from '@/content/site';
 import { projects } from '@/content/projects';
-import { gsap, DUR, EASE, STAGGER, MOTION_OK } from '@/lib/gsap';
+import { gsap, DUR, EASE, STAGGER, MOTION_OK, PLAY_ONCE } from '@/lib/gsap';
 import WorkCard from './WorkCard';
 import styles from './Work.module.css';
 
@@ -30,13 +30,13 @@ export default function Work() {
         duration: DUR.base,
         ease: EASE.out,
         stagger: 0.08,
-        scrollTrigger: { trigger: el, start: 'top 80%', once: true },
+        scrollTrigger: { trigger: el, start: 'top 80%', ...PLAY_ONCE },
       });
 
       q<HTMLElement>('[data-row]').forEach((row) => {
         const r = gsap.utils.selector(row);
         gsap
-          .timeline({ scrollTrigger: { trigger: row, start: 'top 75%', once: true } })
+          .timeline({ scrollTrigger: { trigger: row, start: 'top 75%', ...PLAY_ONCE } })
           .fromTo(
             r('[data-media]'),
             { clipPath: 'inset(0 0 100% 0)' },
