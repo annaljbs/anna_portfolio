@@ -135,7 +135,7 @@ export const site = {
     timeLabel: 'Local time',
     credit: 'Designed & Developed by',
     socials: [
-      { label: 'WhatsApp', href: 'https://wa.me/' }, // TODO: replace with https://wa.me/<number>
+      { label: 'WhatsApp', href: 'https://wa.me/436601105550' }, // TODO: replace with https://wa.me/<number>
       { label: 'LinkedIn', href: 'https://www.linkedin.com/in/anna-ljubas' }, // TODO: replace
       { label: 'Instagram', href: 'https://www.instagram.com/annaljbs' }, // TODO: replace
       { label: 'GitHub', href: 'https://github.com/annaljbs' }, // TODO: replace
