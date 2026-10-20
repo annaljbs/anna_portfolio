@@ -356,7 +356,7 @@ export const projects: Project[] = [
     year: '2025',
     description:
       'Sketching and 3D Design Process for a Cozy Place.',
-    cover: '/projects/07/roomtour-cover.webp', // first frame of the room tour (was cozysunset.webp)
+    cover: '/projects/07/roomtour-cover.webp', // first frame of the room tour
     // Room tour: upscaled from roomtour.mp4 (1920 → 2560 px, deblocked + lightly sharpened).
     // Shows the first frame; plays in a loop only while hovered (home card + project page).
     video: { mp4: '/projects/07/roomtour-hover.mp4', webm: '/projects/07/roomtour-hover.webm' },
@@ -414,7 +414,7 @@ export const projects: Project[] = [
     cover: '/projects/08/cover.png', // TODO: replace → /projects/09/cover.jpg
     // video: { mp4: '/projects/09/loop.mp4' }, // TODO: add this file (short snippet)
     // videoOnPage: false,
-    // EDIT: the brand guidelines, one image per PDF page (made from public/projects/08/brand guidlines.pdf).
+    // EDIT: the brand guidelines, one image per PDF page (converted from the brand guidelines PDF).
     // Shown full width at the top of the project page, like the QUESTIFY case study.
     caseStudy: [
       { src: '/projects/08/brand-guidelines/01.webp', alt: 'Brand guidelines, page 1 of 14', width: 2880, height: 2036 },
