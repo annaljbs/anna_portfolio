@@ -141,7 +141,7 @@ export const projects: Project[] = [
     year: '2027',
     description:
       'Work in progress — Short Documentary about the Life in former Yugoslavia told from the Perspective of someone\'s Grandmother.', // TODO: replace
-    cover: '/projects/project1.jpeg',
+    cover: '/projects/project2.jpeg',
     embed: 'https://www.youtube.com/watch?v=Y-x0efG1seA', // TODO: paste the YouTube/Vimeo link when the film is finished, then set status to 'live'
     status: 'wip',
     role: 'Director, Producer, Editor, Cinematographer, Sound Designer', // TODO: replace
