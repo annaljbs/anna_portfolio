@@ -5,5 +5,4 @@
 
 ## First-visit glitches (only the first time; fine afterwards)
 
-- Nav menu: every time the menu is opened, "About" appears later than the other menu items.
 - Footer: the first time you scroll to the very bottom, the top of the "Get in touch" title is cropped for about a milisecond, then it renders correctly on its own.

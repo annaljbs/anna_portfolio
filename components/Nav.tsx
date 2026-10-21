@@ -81,7 +81,9 @@ export default function Nav() {
     };
     window.addEventListener('keydown', onKey);
     const focus = gsap.delayedCall(0.15, () => {
-      panel.current?.querySelector<HTMLElement>('a')?.focus();
+      // preventScroll: focusing the still-masked first link would scroll its
+      // overflow-hidden row and skip that link's slide-up.
+      panel.current?.querySelector<HTMLElement>('a')?.focus({ preventScroll: true });
     });
     return () => {
       window.removeEventListener('keydown', onKey);
