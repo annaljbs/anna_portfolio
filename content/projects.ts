@@ -410,7 +410,7 @@ export const projects: Project[] = [
     category: 'Branding, Design', 
     year: '2025',
     description:
-      'A first attempt at creating a logo for a myself.',
+      'A first attempt at creating a logo for myself.',
     cover: '/projects/08/cover.png', // TODO: replace → /projects/09/cover.jpg
     // video: { mp4: '/projects/09/loop.mp4' }, // TODO: add this file (short snippet)
     // videoOnPage: false,
@@ -436,7 +436,7 @@ export const projects: Project[] = [
     role: 'Designer',
     stack: ['Illustrator', 'Photoshop', 'InDesign'],
     intro:
-      'A first attempt at creating a logo for a myself.',
+      'A first attempt at creating a logo for myself.',
     blocks: [
     ],
     gallery: [

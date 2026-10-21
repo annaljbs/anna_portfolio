@@ -21,7 +21,7 @@ export const site = {
   name: 'Anna Ljubas', 
   // EDIT: short line under the hero name and the Google/browser description. '' hides it.
   tagline:
-    '29 y/o Media Technology and Design student from Austria', // TODO: replace
+    '31 y/o Media Technology and Design student from Austria',
   // EDIT: shown in the hero meta row next to the date and live clock.
   location: 'Gunskirchen, Austria', 
   // EDIT: time zone of the live clocks (hero + footer), e.g. 'Europe/Berlin'.
@@ -65,7 +65,7 @@ export const site = {
     title: 'Featured Work',
     hint: '[Scroll to explore more]',
     viewLabel: 'View Project',
-    wipLabel: 'Case study coming soon',
+    wipLabel: 'Coming soon',
     wipPill: 'In progress',
   },
   /** Manifesto pull-quote — §3.5 */
@@ -97,7 +97,7 @@ export const site = {
     items: [
       {
         q: 'What\'s your most unpopluar opinion?',
-        a: 'I have asthma, I can\'t do any physical activity.', // TODO: replace
+        a: 'I have asthma, I can\'t do any physical activity.',
       },
       {
         q: "Did you think you\'d end up where you are now? Why or why not?",
@@ -117,7 +117,7 @@ export const site = {
       },
       {
         q: 'What would be your first question after waking up from being cryogenically frozen for 100 years?',
-        a: 'Did Elon Musk clone himself? Just kidding, I\'d probably ask for Burger King.', // TODO: replace
+        a: 'Did Elon Musk clone himself? Just kidding, I\'d probably ask for Burger King.',
       },
     ],
   },
@@ -131,14 +131,14 @@ export const site = {
     lead: "Want to get to know me better? Don't hesitate to reach out!",
     title: 'Get in touch',
     copied: 'Email copied',
-    phone: '', // TODO: replace, or '' to hide the phone line
+    phone: '', // TODO: replace with your phone number, or '' to hide the phone line
     timeLabel: 'Local time',
     credit: 'Designed & Developed by',
     socials: [
-      { label: 'WhatsApp', href: 'https://wa.me/436601105550' }, // TODO: replace with https://wa.me/<number>
-      { label: 'LinkedIn', href: 'https://www.linkedin.com/in/anna-ljubas' }, // TODO: replace
-      { label: 'Instagram', href: 'https://www.instagram.com/annaljbs' }, // TODO: replace
-      { label: 'GitHub', href: 'https://github.com/annaljbs' }, // TODO: replace
+      { label: 'WhatsApp', href: 'https://wa.me/436601105550' }, 
+      { label: 'LinkedIn', href: 'https://www.linkedin.com/in/anna-ljubas' }, 
+      { label: 'Instagram', href: 'https://www.instagram.com/annaljbs' }, 
+      { label: 'GitHub', href: 'https://github.com/annaljbs' }, 
     ],
   },
   /** /work/[slug] detail pages — §3.9 */
