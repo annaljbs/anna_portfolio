@@ -36,8 +36,6 @@
   /* Status pill ("● Open to work"): background and dot colour. */
   --hero-status-bg: rgba(240, 240, 240, 0.85);
   --hero-dot: #22c55e;
-  /* ≤ 768px: aspect ratio of the stacked portrait. */
-  --hero-mobile-portrait: 3 / 4;
   /* ─────────────────────────────────────────────────────────────────────── */
 
   /* Section shell. overflow: hidden clips the portrait's scroll parallax and
@@ -225,11 +223,15 @@
   }
 }
 
-/* ≤ 768px: single column — name, tagline, meta, then the portrait — and the
-   status pill sits in the flow below the portrait. */
+/* ≤ 768px: single column — name, tagline, meta on one line,
+   then the portrait filling whatever height is left, so the hero is exactly
+   one screen tall and scrolling lands on About. The status pill sits in the
+   bottom-left corner of the frame, mirroring the mail button. */
 @media (max-width: 768px) {
   .inner {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    height: 100svh;
   }
 
   .text {
@@ -248,14 +250,28 @@
     padding-top: 1rem;
   }
 
+  /* One line: date and time never break; the location wraps onto a second
+     line ("Gunskirchen, / Austria") only when the row would not fit. */
+  .meta {
+    flex-wrap: nowrap;
+    align-items: end;
+  }
+
+  .meta > * {
+    white-space: nowrap;
+  }
+
+  .meta > .location {
+    white-space: normal;
+  }
+
   .portrait {
     min-height: 0;
-    aspect-ratio: var(--hero-mobile-portrait);
   }
 
   .status {
-    position: static;
-    justify-self: start;
-    margin: 0 var(--gutter) var(--gutter);
+    right: auto;
+    left: calc(var(--frame-inset) + 1.5rem);
+    bottom: calc(var(--frame-inset) + 1.5rem);
   }
 }

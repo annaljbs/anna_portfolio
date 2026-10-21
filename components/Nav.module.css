@@ -32,6 +32,11 @@
   line-height: 1.2;
 }
 
+/* Stays on the right when the wordmark is not rendered (home page). */
+.toggle {
+  margin-left: auto;
+}
+
 .toggle:focus-visible {
   outline-color: #fff;
 }

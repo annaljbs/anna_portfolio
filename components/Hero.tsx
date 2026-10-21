@@ -171,7 +171,7 @@ export default function Hero() {
           </div>
 
           <div className={`${styles.meta} t-mono`} data-hero-meta>
-            <span>{site.location}</span>
+            <span className={styles.location}>{site.location}</span>
             <Clock />
           </div>
         </div>

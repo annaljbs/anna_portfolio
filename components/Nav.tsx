@@ -121,14 +121,17 @@ export default function Nav() {
   return (
     <header className={styles.header}>
       <div ref={bar} className={styles.bar}>
-        <a
-          href="#top"
-          className={`${styles.wordmark} u-underline`}
-          data-transition="none"
-          onClick={(e) => go(e, '#top')}
-        >
-          {site.name}
-        </a>
+        {/* Home has the back-to-top arrow instead; detail pages keep the wordmark. */}
+        {pathname !== '/' && (
+          <a
+            href="#top"
+            className={`${styles.wordmark} u-underline`}
+            data-transition="none"
+            onClick={(e) => go(e, '#top')}
+          >
+            {site.name}
+          </a>
+        )}
         <button
           ref={toggle}
           type="button"
