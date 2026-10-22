@@ -46,6 +46,10 @@ export default function Footer() {
         mm.add(MOTION_OK, () => {
           const title = q<HTMLElement>('[data-title]')[0];
           const split = SplitText.create(title, { type: 'lines', mask: 'lines' });
+          // At line-height 0.9 the caps rise above each mask's line box, so
+          // the default overflow clip trims their tops during the reveal. Clip
+          // at the bottom edge only (same trick as the hero name lines).
+          gsap.set(split.masks, { overflow: 'visible', clipPath: 'inset(-0.15em -0.3em 0 -0.3em)' });
           const curtain = el.parentElement?.querySelector<HTMLElement>('[data-curtain]') ?? null;
 
           // Viewport y of the pinned footer's top, then of a child's midpoint;
