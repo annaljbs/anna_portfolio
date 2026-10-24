@@ -313,7 +313,7 @@ export default function ProjectPage({ project, index, next }: Props) {
           <section
             className={styles.gallery}
             aria-label="Gallery"
-            data-layout={project.gallery.some((m) => m.video) ? 'row' : undefined}
+            data-layout={project.gallery.some(isClip) ? 'row' : undefined}
           >
             {/* EDIT: the gallery shows at most 4 pictures; the 3rd spans the full width.
                 With clips, all items sit in one row at equal size. */}
@@ -344,24 +344,29 @@ export default function ProjectPage({ project, index, next }: Props) {
   );
 }
 
+/** Gallery items whose src is an .mp4 play as a muted loop instead of a picture. */
+const isClip = (media: ProjectMedia) => media.src.endsWith('.mp4');
+
 function MediaBox({ media, sizes }: { media: ProjectMedia; sizes: string }) {
+  const clip = isClip(media);
   return (
     <div
       className={styles.media}
       data-media
-      style={media.video && media.width && media.height ? { aspectRatio: `${media.width} / ${media.height}` } : undefined}
+      style={clip && media.width && media.height ? { aspectRatio: `${media.width} / ${media.height}` } : undefined}
     >
       <div className={styles.mediaInner} data-media-inner>
-        <Image
-          src={media.src}
-          alt={media.alt}
-          fill
-          sizes={sizes}
-          className={styles.asset}
-          unoptimized={media.src.endsWith('.svg')}
-        />
-        {media.video && (
-          <ProjectVideo video={media.video} poster={media.src} className={`${styles.asset} ${styles.video}`} />
+        {clip ? (
+          <ProjectVideo video={{ mp4: media.src }} className={`${styles.asset} ${styles.video}`} />
+        ) : (
+          <Image
+            src={media.src}
+            alt={media.alt}
+            fill
+            sizes={sizes}
+            className={styles.asset}
+            unoptimized={media.src.endsWith('.svg')}
+          />
         )}
       </div>
     </div>

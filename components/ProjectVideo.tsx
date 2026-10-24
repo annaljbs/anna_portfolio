@@ -6,7 +6,8 @@ import { prefersReducedMotion } from '@/lib/gsap';
 
 type Props = {
   video: VideoSources;
-  poster: string;
+  /** Omit for a clip with no still image (it shows its first frame). */
+  poster?: string;
   className?: string;
   /** Play only while the surrounding [data-media] box is hovered or focused;
    *  otherwise show the first frame. Leaving rewinds to the start. */
@@ -84,7 +85,7 @@ export default function ProjectVideo({ video, poster, className, hover = false }
       muted
       loop
       playsInline
-      preload={hover ? 'auto' : 'metadata'}
+      preload={hover || !poster ? 'auto' : 'metadata'}
       poster={poster}
       aria-hidden="true"
       tabIndex={-1}

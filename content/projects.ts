@@ -49,9 +49,9 @@
  *               { layout: 'elements', media: [ … ] } = small UI pieces at one
  *               height on a panel. Each media item: { src, alt, width, height }.
  *  gallery      up to 4 pictures at the bottom ([] hides the gallery).
- *               Add video: { mp4: '…' } to an item to loop a clip over its
- *               picture; a gallery with clips shows them side by side in one
- *               row, all the same size (width/height = the clip's pixels).
+ *               An .mp4 as src plays as a muted loop; a gallery with clips
+ *               shows them side by side in one row, all the same size
+ *               (width/height = the clip's pixels).
  *
  * Every project has its own full set of fields and placeholder media, so
  * each one can be changed on its own: delete a block or gallery picture you
@@ -78,8 +78,6 @@ export type ProjectMedia = {
   /** Pixel size of the file; required for caseStudy images so the page can reserve their space. */
   width?: number;
   height?: number;
-  /** Gallery only: muted loop played over `src` (the poster). */
-  video?: ProjectVideo;
 };
 
 /**
@@ -248,9 +246,9 @@ export const projects: Project[] = [
     // Blender recordings sped up. Each clip exists at 2x and 3x speed:
     // swap '-2x' for '-3x' in a path to use the faster one.
     gallery: [
-      { src: '/projects/03/lizzy1-poster.jpg', alt: 'Lizzy rig in Blender', width: 1440, height: 844, video: { mp4: '/projects/03/lizzy1-2x.mp4' } },
-      { src: '/projects/03/lizzy2-poster.jpg', alt: 'Lizzy rig in Blender', width: 1440, height: 844, video: { mp4: '/projects/03/lizzy2-2x.mp4' } },
-      { src: '/projects/03/lizzy3-poster.jpg', alt: 'Lizzy rig in Blender', width: 1440, height: 844, video: { mp4: '/projects/03/lizzy3-2x.mp4' } },
+      { src: '/projects/03/lizzy1-2x.mp4', alt: 'Lizzy rig in Blender', width: 1440, height: 844 },
+      { src: '/projects/03/lizzy2-2x.mp4', alt: 'Lizzy rig in Blender', width: 1440, height: 844 },
+      { src: '/projects/03/lizzy3-2x.mp4', alt: 'Lizzy rig in Blender', width: 1440, height: 844 },
     ],
   },
   {
