@@ -256,6 +256,17 @@
   grid-column: 1 / -1;
 }
 
+/* Clips: one row, equal columns. */
+.gallery[data-layout='row'] {
+  grid-template-columns: none;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+}
+
+.gallery[data-layout='row'] > :nth-child(3n) {
+  grid-column: auto;
+}
+
 .next {
   display: grid;
   gap: 1.5rem;
@@ -317,5 +328,9 @@
 @media (max-width: 600px) {
   .row[data-layout='screens'] {
     grid-template-columns: 1fr;
+  }
+
+  .gallery[data-layout='row'] {
+    grid-auto-flow: row;
   }
 }

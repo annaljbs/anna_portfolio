@@ -49,6 +49,9 @@
  *               { layout: 'elements', media: [ … ] } = small UI pieces at one
  *               height on a panel. Each media item: { src, alt, width, height }.
  *  gallery      up to 4 pictures at the bottom ([] hides the gallery).
+ *               Add video: { mp4: '…' } to an item to loop a clip over its
+ *               picture; a gallery with clips shows them side by side in one
+ *               row, all the same size (width/height = the clip's pixels).
  *
  * Every project has its own full set of fields and placeholder media, so
  * each one can be changed on its own: delete a block or gallery picture you
@@ -75,6 +78,8 @@ export type ProjectMedia = {
   /** Pixel size of the file; required for caseStudy images so the page can reserve their space. */
   width?: number;
   height?: number;
+  /** Gallery only: muted loop played over `src` (the poster). */
+  video?: ProjectVideo;
 };
 
 /**
@@ -227,8 +232,7 @@ export const projects: Project[] = [
     year: '2026',
     description:
       'Rigging and animation work for a 3D character.',
-    cover: '/placeholders/project-4.svg', // TODO: replace → /projects/03/cover.jpg
-    video: { mp4: '/projects/03/loop.mp4' }, // TODO: add this file (short muted loop)
+    cover: '/projects/03/lizzy.webp', // TODO: replace → /projects/03/cover.jpg
     status: 'live',
     role: 'Rigging and Animation',
     stack: ['Blender'],
@@ -241,10 +245,12 @@ export const projects: Project[] = [
       'The challenge was to create a realistic and fluid animation for the 3D character.', // TODO: replace
     solution:
       'I created a detailed rig and animated the character using keyframe animation to achieve a natural look and feel.', // TODO: replace
+    // Blender recordings sped up. Each clip exists at 2x and 3x speed:
+    // swap '-2x' for '-3x' in a path to use the faster one.
     gallery: [
-      { src: '/placeholders/media-3.svg', alt: '' }, // TODO: replace → /projects/03/gallery-1.jpg
-      { src: '/placeholders/media-1.svg', alt: '' }, // TODO: replace → /projects/03/gallery-2.jpg
-      // { src: '/placeholders/media-2.svg', alt: '' }, // TODO: replace → /projects/03/gallery-3.jpg
+      { src: '/projects/03/lizzy1-poster.jpg', alt: 'Lizzy rig in Blender', width: 1440, height: 844, video: { mp4: '/projects/03/lizzy1-2x.mp4' } },
+      { src: '/projects/03/lizzy2-poster.jpg', alt: 'Lizzy rig in Blender', width: 1440, height: 844, video: { mp4: '/projects/03/lizzy2-2x.mp4' } },
+      { src: '/projects/03/lizzy3-poster.jpg', alt: 'Lizzy rig in Blender', width: 1440, height: 844, video: { mp4: '/projects/03/lizzy3-2x.mp4' } },
     ],
   },
   {
