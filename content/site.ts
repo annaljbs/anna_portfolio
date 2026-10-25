@@ -73,6 +73,8 @@ export const site = {
   manifesto: {
     quote:
       'I’m interested in a lot of things and don’t like to commit to a single path too early. There’s simply too much to discover. I want to understand how things work, how an idea becomes something tangible, and what you can create with a little creativity and technical know-how. ', // TODO: replace
+    // EDIT: the link under the quote; the file lives in public/CV/.
+    resume: { label: 'Check out my resume', href: '/CV/CV.pdf' },
   },
   /** (04) Skills — §3.6. Hints alternate per row; the arrow always points at the marker. */
   // EDIT: groups = the clickable rows. name = row title, items = what opens below it.

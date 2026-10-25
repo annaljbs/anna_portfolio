@@ -59,6 +59,14 @@ export default function Manifesto() {
           “{site.manifesto.quote}”
         </p>
       </blockquote>
+      <a
+        className={`${styles.resume} t-mono`}
+        href={site.manifesto.resume.href}
+        target="_blank"
+        rel="noreferrer"
+      >
+        {site.manifesto.resume.label}
+      </a>
     </section>
   );
 }

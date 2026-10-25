@@ -19,3 +19,21 @@
   color: var(--ink);
   text-wrap: balance;
 }
+
+/* Footer-social mono, a step larger, underlined at rest. */
+.resume {
+  display: block;
+  width: fit-content;
+  margin: clamp(2rem, 4vw, 3.5rem) auto 0;
+  font-size: 0.9375rem; /* 15px */
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.resume:hover,
+.resume:focus-visible {
+  opacity: 0.6;
+}
