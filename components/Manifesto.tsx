@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { site } from '@/content/site';
 import { gsap, SplitText, MOTION_OK } from '@/lib/gsap';
+import ResumeModal from './ResumeModal';
 import styles from './Manifesto.module.css';
 
 const WORD_MIN_OPACITY = 0.15;
@@ -15,6 +16,8 @@ const WORD_MIN_OPACITY = 0.15;
  */
 export default function Manifesto() {
   const root = useRef<HTMLElement>(null);
+  const [resumeOpen, setResumeOpen] = useState(false);
+  const { resume } = site.manifesto;
 
   useEffect(() => {
     const el = root.current;
@@ -59,14 +62,21 @@ export default function Manifesto() {
           “{site.manifesto.quote}”
         </p>
       </blockquote>
+      {/* Opens the viewer; the PDF stays the href for new-tab clicks and no-JS. */}
       <a
         className={`${styles.resume} t-mono`}
-        href={site.manifesto.resume.href}
+        href={resume.href}
         target="_blank"
         rel="noreferrer"
+        onClick={(e) => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          e.preventDefault();
+          setResumeOpen(true);
+        }}
       >
-        {site.manifesto.resume.label}
+        {resume.label}
       </a>
+      <ResumeModal open={resumeOpen} onClose={() => setResumeOpen(false)} image={resume.image} />
     </section>
   );
 }
