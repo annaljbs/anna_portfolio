@@ -72,7 +72,7 @@ export const site = {
   // EDIT: the big centred quote between Work and Skills. One or two sentences read best.
   manifesto: {
     quote:
-      'I don’t care if I’m running errands on set, organizing project files, or actively animating, filming, or editing. I just want to be in the room where the real work happens.', // TODO: replace
+      'I’m interested in a lot of things and don’t like to commit to a single path too early. There’s simply too much to discover. I want to understand how things work, how an idea becomes something tangible, and what you can create with a little creativity and technical know-how. ', // TODO: replace
   },
   /** (04) Skills — §3.6. Hints alternate per row; the arrow always points at the marker. */
   // EDIT: groups = the clickable rows. name = row title, items = what opens below it.
